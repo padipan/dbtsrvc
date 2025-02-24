@@ -1,0 +1,109 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;700&display=swap');
+body {
+    background-color: #1a1a2e;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.header {
+    font-size: 3em;
+    font-family: 'Kanit', sans-serif;
+    color: #e94560;
+    text-shadow: 0 0 15px rgba(18, 206, 59, 0.7);
+    margin-bottom: 20px;
+}
+
+.slideshow {
+    width: 80%;
+    max-width: 1200px;
+    position: relative;
+    overflow: hidden;
+    border: 2px solid #2ae320;
+    border-radius: 15px;
+    box-shadow: 0 0 15px #2feb1a;
+}
+
+.slides {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.slide {
+    min-width: 100%;
+    position: relative;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.slide img {
+    width: 100%;
+    border-radius: 15px;
+}
+
+.slide h2 {
+    font-family: 'Kanit', sans-serif;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    margin: 0;
+    font-size: 2.5em;
+    color: #e94560;
+    text-shadow: 0 0 10px rgba(37, 233, 15, 0.7);
+    font-family: 'Orbitron', sans-serif;
+}
+
+.navigation {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+}
+
+.arrow {
+    background: linear-gradient(45deg, #e94560, #902749);
+    border: none;
+    padding: 15px 20px;
+    cursor: pointer;
+    border-radius: 10px;
+    box-shadow: 0 0 15px #e94560;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.2em;
+    color: #fff;
+    transition: all 0.3s;
+}
+
+.arrow:hover {
+    transform: scale(1.2);
+    box-shadow: 0 0 25px #26f517;
+}
+
+.indicator {
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+    text-align: center;
+}
+
+.dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin: 0 5px;
+    background-color: #ccc;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.dot.active {
+    background-color: #11a93f;
+}
