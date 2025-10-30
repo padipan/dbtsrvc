@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>จองสิทธิ์เข้าเรียน | เทคโนโลยีธุรกิจดิจิทัล วิทยาลัยอาชีวศึกษาสุรินทร์ ปีการศึกษา 2569</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom Styles and Colors */
+        .bg-custom-blue { background-color: #f0f8ff; } /* Light Sky Blue, warm tone */
+        .text-custom-navy { color: #1e3a8a; } /* Deep Navy Blue, formal */
+        .shadow-form { box-shadow: 0 10px 25px -3px rgba(30, 58, 138, 0.1), 0 4px 6px -2px rgba(30, 58, 138, 0.05); }
+
+        /* Ensure form inputs look consistent */
+        input[type="text"], input[type="tel"], input[type="number"], select, textarea {
+            transition: all 0.2s;
+            border-color: #d1d5db;
+        }
+        input:focus, select:focus, textarea:focus {
+            border-color: #3b82f6; /* Blue-500 */
+            ring: 1px;
+            ring-color: #3b82f6;
+            outline: none;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans">
+
+    <!-- Header -->
+    <header class="bg-white shadow-lg sticky top-0 z-10">
+        <div class="container mx-auto p-4 flex flex-col md:flex-row justify-between items-center space-y-2 md:space-y-0">
+            <!-- Logo and College Name -->
+            <div class="flex items-center">
+                <!-- Placeholder for Logo - Recommend replacing with actual image/SVG -->
+                <img src="https://img2.pic.in.th/pic/2567e5df3dd471d8421e.png" alt="โลโก้วิทยาลัย" class="h-10 w-10 mr-3 rounded-full border-2 border-blue-500">
+                <span class="text-lg font-extrabold text-custom-navy tracking-tight">วิทยาลัยอาชีวศึกษาสุรินทร์</span>
+            </div>
+            <h1 class="text-xl md:text-2xl font-black text-blue-700 text-center">
+                จองสิทธิ์เข้าเรียน | แผนกวิชาเทคโนโลยีธุรกิจดิจิทัล วิทยาลัยอาชีวศึกษาสุรินทร์ ปีการศึกษา 2569
+            </h1>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto p-4 lg:p-8">
+
+        <!-- Banner Placeholder -->
+        <div class="bg-blue-600/90 text-white p-6 md:p-10 rounded-xl mb-8 shadow-2xl">
+            <h2 class="text-3xl md:text-4xl font-extrabold mb-1">DBT | Digital Business Technology</h2>
+            <p class="text-lg font-medium text-blue-100">เปิดรับสมัครนักเรียน/นักศึกษา แผนกวิชาเทคโนโลยีธุรกิจดิจิทัล วิทยาลัยอาชีวศึกษาสุรินทร์ ประจำปีการศึกษา 2569</p>
+            <p class="text-yellow-300 mt-3 text-xl font-bold">***เริ่มสมัครได้ตั้งแต่วันนี้เป็นต้นไป***</p>
+            <!-- Banner Image Placeholder - Replace with a nice departmental banner -->
+            <img src="https://img5.pic.in.th/file/secure-sv1/f615b7e2db3a5e50c54b072b3c12779b.png" alt="แบนเนอร์แผนกวิชา" class="mt-5 rounded-md w-full h-auto object-cover border-4 border-white/50">
+        </div>
+
+        <!-- Instructions and Contact Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-10">
+            
+            <!-- Instructions Panel -->
+            <div class="lg:col-span-2 bg-white p-6 rounded-xl shadow-form border-t-4 border-blue-500">
+                <h3 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-blue-500" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                    </svg>
+                    📢 คำชี้แจง: ขั้นตอนการสมัครและรายงานตัว
+                </h3>
+                <p class="mb-4 text-gray-700 leading-relaxed font-medium">
+                    การจองสิทธิ์นี้เป็นการกรอกข้อมูลล่วงหน้าเพื่อแสดงความจำนงเท่านั้น **นักเรียนต้องมาสมัครเรียน พร้อมรายงานตัวด้วยตนเอง** ณ วิทยาลัยอาชีวศึกษาสุรินทร์
+                </p>
+
+                <h4 class="text-xl font-semibold text-blue-600 mb-3 border-b pb-1">สถานที่และวันเวลา:</h4>
+                <ul class="space-y-3 ml-4 text-gray-700">
+                    <li class="flex items-start">
+                        <span class="font-bold mr-2 text-blue-800 flex-shrink-0">🔵 จันทร์ - ศุกร์:</span> 
+                        <span class="text-gray-600">สมัครได้ที่ **ห้องทะเบียน อาคารอำนวยการ (อาคาร 1)**</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="font-bold mr-2 text-blue-800 flex-shrink-0">🔴 เสาร์ - อาทิตย์:</span> 
+                        <span class="text-gray-600">สมัครได้ที่ **ห้องเกียรติยศ (ติดประตูใหญ่ทางเข้าวิทยาลัยฯ)**</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Contact Panel -->
+            <div class="bg-custom-blue p-6 rounded-xl shadow-form border-t-4 border-blue-700">
+                <h3 class="text-xl font-bold text-blue-800 mb-4 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-blue-700" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.772-1.549a1 1 0 011.06-.54l4.435.74A1 1 0 0118 16.847V17a1 1 0 01-1 1H3a1 1 0 01-1-1v-1.847z" />
+                    </svg>
+                    📞 สอบถามเพิ่มเติม
+                </h3>
+                <ul class="space-y-3 text-gray-700">
+                    <li>
+                        <strong class="text-blue-900">หัวหน้าแผนก (ครูสมฤทธิ์ ดอนหมั่น):</strong>
+                        <br><a href="tel:0815473694" class="text-blue-600 hover:text-blue-800 font-mono">081-547-3694</a>
+                    </li>
+                    <li class="border-t border-blue-200 pt-2">
+                        <strong class="text-blue-900">คณะครูแผนกฯ:</strong>
+                        <ul class="list-disc list-inside ml-2 text-sm space-y-1 mt-1">
+                            <li>ครูภัทราภร: <a href="tel:0992033919" class="text-blue-600 hover:text-blue-800">099-203-3919</a></li>
+                            <li>ครูปฎิภาณ: <a href="tel:0988370171" class="text-blue-600 hover:text-blue-800">098-837-0171</a></li>
+                            <li>ครูลัคนา: <a href="tel:0919319935" class="text-blue-600 hover:text-blue-800">091-931-9935</a></li>
+                            <li>ครูฝ้าย: <a href="tel:0620056205" class="text-blue-600 hover:text-blue-800">062-005-6205</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Booking Form -->
+        <section class="bg-white p-6 md:p-10 rounded-xl shadow-form border-t-8 border-blue-600">
+            <h3 class="text-2xl md:text-3xl font-black text-blue-700 mb-8">📝 แบบฟอร์มกรอกข้อมูลผู้สมัครเรียน (จองสิทธิ์)</h3>
+            <form id="bookingForm" class="space-y-6">
+                
+                <p class="text-red-500 mb-4 font-semibold text-sm">(*) คือ ข้อมูลที่จำเป็นต้องกรอก</p>
+
+                <!-- STUDENT INFORMATION -->
+                <fieldset class="border border-blue-200 p-4 rounded-lg">
+                    <legend class="text-lg font-bold text-blue-800 px-2">ข้อมูลนักเรียน/นักศึกษา</legend>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
+                        <!-- Prefix -->
+                        <div>
+                            <label for="prefix" class="block text-sm font-medium text-gray-700">คำนำหน้า <span class="text-red-500">*</span></label>
+                            <select id="prefix" name="คำนำหน้า" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border">
+                                <option value="" disabled selected>เลือก</option>
+                                <option value="นาย">นาย</option>
+                                <option value="นางสาว">นางสาว</option>
+                                <option value="เด็กชาย">เด็กชาย</option>
+                                <option value="เด็กหญิง">เด็กหญิง</option>
+                            </select>
+                        </div>
+                        <!-- First Name -->
+                        <div class="md:col-span-1">
+                            <label for="firstName" class="block text-sm font-medium text-gray-700">ชื่อ <span class="text-red-500">*</span></label>
+                            <input type="text" id="firstName" name="ชื่อ" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border">
+                        </div>
+                        <!-- Last Name -->
+                        <div class="md:col-span-1">
+                            <label for="lastName" class="block text-sm font-medium text-gray-700">นามสกุล <span class="text-red-500">*</span></label>
+                            <input type="text" id="lastName" name="นามสกุล" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-6">
+                        <!-- Current Level -->
+                        <div>
+                            <label for="currentLevel" class="block text-sm font-medium text-gray-700">ระดับชั้นที่ศึกษาอยู่ <span class="text-red-500">*</span></label>
+                            <select id="currentLevel" name="ระดับชั้นที่ศึกษาอยู่" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border">
+                                <option value="" disabled selected>เลือก</option>
+                                <option value="มัธยมศึกษาปีที่ 3">มัธยมศึกษาปีที่ 3</option>
+                                <option value="ประกาศนียบัตรวิชาชีพ ปวช.3">ประกาศนียบัตรวิชาชีพ ปวช.3</option>
+                                <option value="มัธยมศึกษาปีที่ 6">มัธยมศึกษาปีที่ 6</option>
+                            </select>
+                        </div>
+                        <!-- Current School -->
+                        <div>
+                            <label for="currentSchool" class="block text-sm font-medium text-gray-700">โรงเรียน/วิทยาลัยที่จะจบ <span class="text-red-500">*</span></label>
+                            <input type="text" id="currentSchool" name="โรงเรียนที่จะจบ" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-6">
+                        <!-- Student Phone -->
+                        <div>
+                            <label for="studentPhone" class="block text-sm font-medium text-gray-700">เบอร์โทรศัพท์นักเรียนที่ติดต่อได้ <span class="text-red-500">*</span></label>
+                            <input type="tel" id="studentPhone" name="เบอร์โทรศัพท์นักเรียน" required pattern="[0-9]{10}" title="กรุณากรอกตัวเลข 10 หลัก" placeholder="เช่น 08XXXXXXXX" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border">
+                        </div>
+                        <!-- GPA -->
+                        <div>
+                            <label for="gpa" class="block text-sm font-medium text-gray-700">เกรดเฉลี่ย 5 เทอม *ถ้ามี*</label>
+                            <input type="number" step="0.01" min="0" max="4" id="gpa" name="เกรดเฉลี่ย" placeholder="เช่น 3.50" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border">
+                        </div>
+                    </div>
+                </fieldset>
+                
+                <!-- ADDRESS -->
+                <fieldset class="border border-blue-200 p-4 rounded-lg">
+                    <legend class="text-lg font-bold text-blue-800 px-2">ที่อยู่ปัจจุบัน</legend>
+                    <div>
+                        <label for="address" class="block text-sm font-medium text-gray-700">ที่อยู่โดยละเอียด (เช่น 426 ถ.เทศบาล 1 ต.ในเมือง อ.เมือง จ.สุรินทร์ 32000) <span class="text-red-500">*</span></label>
+                        <textarea id="address" name="ที่อยู่" rows="3" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border"></textarea>
+                    </div>
+                </fieldset>
+
+                <!-- PARENT INFORMATION -->
+                <fieldset class="border border-blue-200 p-4 rounded-lg">
+                    <legend class="text-lg font-bold text-blue-800 px-2">ข้อมูลผู้ปกครอง</legend>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+                        <!-- Parent Name -->
+                        <div>
+                            <label for="parentName" class="block text-sm font-medium text-gray-700">ชื่อ-สกุล ผู้ปกครองที่สามารถติดต่อได้ <span class="text-red-500">*</span></label>
+                            <input type="text" id="parentName" name="ชื่อ-สกุล ผู้ปกครอง" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border">
+                        </div>
+                        <!-- Parent Phone -->
+                        <div>
+                            <label for="parentPhone" class="block text-sm font-medium text-gray-700">เบอร์โทรศัพท์-ผู้ปกครองที่สามารถติดต่อได้ <span class="text-red-500">*</span></label>
+                            <input type="tel" id="parentPhone" name="เบอร์โทรศัพท์ผู้ปกครอง" required pattern="[0-9]{10}" title="กรุณากรอกตัวเลข 10 หลัก" placeholder="เช่น 08XXXXXXXX" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border">
+                        </div>
+                    </div>
+                </fieldset>
+
+                <!-- ENROLLMENT LEVEL -->
+                <fieldset class="border border-blue-200 p-4 rounded-lg">
+                    <legend class="text-lg font-bold text-blue-800 px-2">ระดับชั้นที่ต้องการสมัคร</legend>
+                    <div class="space-y-3 pt-2">
+                        <label class="block text-sm font-medium text-gray-700">เลือกประเภทการสมัคร <span class="text-red-500">*</span></label>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+                            <label class="inline-flex items-center bg-gray-50 p-3 rounded-lg border hover:border-blue-500 cursor-pointer">
+                                <input type="radio" name="สมัครระดับชั้น" value="ปวช." required class="form-radio h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500">
+                                <span class="ml-3 text-gray-700 font-medium">ปวช. (จบ ม.3)</span>
+                            </label>
+                            <label class="inline-flex items-center bg-gray-50 p-3 rounded-lg border hover:border-blue-500 cursor-pointer">
+                                <input type="radio" name="สมัครระดับชั้น" value="ปวส. สายตรง (จบ ปวช.3 เทคโนโลยีธุรกิจดิจิทัล)" required class="form-radio h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500">
+                                <span class="ml-3 text-gray-700 font-medium">ปวส. สายตรง (จบ ปวช.3 เทคโนโลยีธุรกิจดิจิทัล)</span>
+                            </label>
+                            <label class="inline-flex items-center bg-gray-50 p-3 rounded-lg border hover:border-blue-500 cursor-pointer">
+                                <input type="radio" name="สมัครระดับชั้น" value="ปวส. สายตรง ทวิ (จบ ปวช.3 เทคโนโลยีธุรกิจดิจิทัล)" required class="form-radio h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500">
+                                <span class="ml-3 text-gray-700 font-medium">ปวส. สายตรง ทวิ (จบ ปวช.3 เทคโนโลยีธุรกิจดิจิทัล)</span>
+                            </label>
+                            <label class="inline-flex items-center bg-gray-50 p-3 rounded-lg border hover:border-blue-500 cursor-pointer">
+                                <input type="radio" name="สมัครระดับชั้น" value="ปวส. ต่าง (จบ ม.6)" required class="form-radio h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500">
+                                <span class="ml-3 text-gray-700 font-medium">ปวส. ต่าง (จบ ม.6 ทุกสาขา)</span>
+                            </label>
+                            <label class="inline-flex items-center bg-gray-50 p-3 rounded-lg border hover:border-blue-500 cursor-pointer">
+                                <input type="radio" name="สมัครระดับชั้น" value="ปวส. ต่างสาขา (จบ ปวช.3 ต่างสาขาวิชา)" required class="form-radio h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500">
+                                <span class="ml-3 text-gray-700 font-medium">ปวส. ต่างสาขา (จบ ปวช.3 สาขาอื่น)</span>
+                            </label>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <!-- Submit Button and Status -->
+                <button type="submit" id="submitBtn" class="w-full py-4 px-4 border border-transparent rounded-lg shadow-xl text-lg font-bold text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out transform hover:scale-[1.01] active:scale-95">
+                    ยืนยันการจองสิทธิ์และบันทึกข้อมูล
+                </button>
+
+                <div id="formStatus" class="mt-4 text-center font-semibold hidden"></div>
+
+            </form>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-custom-navy text-white text-center p-6 mt-12">
+        <p class="text-sm">&copy; 2568 แผนกวิชาเทคโนโลยีธุรกิจดิจิทัล วิทยาลัยอาชีวศึกษาสุรินทร์ | จองสิทธิ์เข้าเรียน ปีการศึกษา 2569</p>
+    </footer>
+    
+    <!-- JavaScript for Form Submission -->
+    <script>
+        document.getElementById('bookingForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const form = e.target;
+            const submitBtn = document.getElementById('submitBtn');
+            const formStatus = document.getElementById('formStatus');
+            const formData = new FormData(form);
+
+            // Prepare data object
+            const object = {};
+            formData.forEach((value, key) => {
+                object[key] = value;
+            });
+            
+            // Add Timestamp
+            object['Timestamp'] = new Date().toLocaleString("th-TH", { timeZone: "Asia/Bangkok" });
+
+            // IMPORTANT: REPLACE THIS URL with your deployed Google Apps Script Web App URL
+            const scriptUrl = 'https://script.google.com/macros/s/AKfycbw5cn3mMCFYPemQecWWoLUmg62eUA8ANXSWjAoR4LB0GksvtMFcZ_IQgvI64QJdqe63/exec'; 
+
+            formStatus.textContent = 'กำลังส่งข้อมูล... โปรดรอสักครู่ (หากใช้เวลานานแสดงว่ากำลังเชื่อมต่อกับ Google Sheet)';
+            formStatus.className = 'mt-4 text-center font-semibold text-blue-600 p-3 bg-blue-100 rounded-lg block';
+            submitBtn.disabled = true;
+            submitBtn.textContent = '...กำลังดำเนินการ...';
+            submitBtn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+            submitBtn.classList.add('bg-gray-400');
+
+            // --- Exponential Backoff Fetch Implementation ---
+
+            const MAX_RETRIES = 3;
+            let retries = 0;
+
+            const submitData = async () => {
+                try {
+                    const response = await fetch(scriptUrl, {
+                        method: 'POST',
+                        // Set mode to 'no-cors' for Google Apps Script deployment as a simple form handler
+                        mode: 'no-cors', 
+                        cache: 'no-cache',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: new URLSearchParams(object)
+                    });
+
+                    // For 'no-cors' mode, we usually assume success if the fetch completes without network error
+                    if (response) {
+                        formStatus.textContent = '✅ จองสิทธิ์สำเร็จแล้ว! ข้อมูลของคุณถูกบันทึกเรียบร้อย กรุณาเดินทางมาสมัครด้วยตนเองตามคำชี้แจง';
+                        formStatus.className = 'mt-4 text-center font-bold text-green-700 p-4 bg-green-100 rounded-lg shadow-md block';
+                        form.reset(); // Clear the form
+                    }
+
+                } catch (error) {
+                    retries++;
+                    if (retries < MAX_RETRIES) {
+                        const delay = Math.pow(2, retries) * 1000; // 2s, 4s, 8s
+                        formStatus.textContent = `เกิดข้อผิดพลาดในการส่งข้อมูล (ลองใหม่ครั้งที่ ${retries}/${MAX_RETRIES})...`;
+                        await new Promise(resolve => setTimeout(resolve, delay));
+                        await submitData(); // Retry
+                    } else {
+                        console.error('Final Error!', error);
+                        formStatus.textContent = '❌ การจองสิทธิ์ไม่สำเร็จ! เกิดข้อผิดพลาดในการเชื่อมต่อ กรุณาลองใหม่ในภายหลัง หรือติดต่อเบอร์โทรศัพท์ที่แจ้งไว้';
+                        formStatus.className = 'mt-4 text-center font-bold text-red-700 p-4 bg-red-100 rounded-lg shadow-md block';
+                    }
+                } finally {
+                    if (retries >= MAX_RETRIES || formStatus.textContent.startsWith('✅')) {
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = 'ยืนยันการจองสิทธิ์และบันทึกข้อมูล';
+                        submitBtn.classList.add('bg-blue-600', 'hover:bg-blue-700');
+                        submitBtn.classList.remove('bg-gray-400');
+                    }
+                }
+            };
+            
+            submitData();
+        });
+    </script>
+</body>
+</html>
