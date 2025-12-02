@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แบบประเมินความสุขคนไทย (ฉบับย่อ 20 ข้อ)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-color: #4A90E2;
+            --secondary-color: #50E3C2;
+            --bg-color: #F4F7F6;
+            --card-bg: #FFFFFF;
+            --text-color: #333333;
+            --text-light: #777777;
+            --success-color: #2ECC71;
+            --warning-color: #F1C40F;
+            --danger-color: #E74C3C;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Kanit', sans-serif;
+            background: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background: var(--card-bg);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Header Section */
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            padding: 40px 20px;
+            text-align: center;
+            color: white;
+        }
+
+        header h1 {
+            font-weight: 600;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-weight: 300;
+            opacity: 0.9;
+            font-size: 16px;
+        }
+
+        /* Form Section */
+        .form-content {
+            padding: 30px;
+        }
+
+        .instruction {
+            background: #EBF5FB;
+            border-left: 5px solid var(--primary-color);
+            padding: 15px;
+            margin-bottom: 30px;
+            border-radius: 5px;
+            color: #2C3E50;
+            font-size: 14px;
+        }
+
+        .question-group-title {
+            font-size: 18px;
+            color: var(--primary-color);
+            margin: 30px 0 15px 0;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #eee;
+            font-weight: 600;
+        }
+
+        .question-item {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #fff;
+            border: 1px solid #eee;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .question-item:hover {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+            border-color: var(--secondary-color);
+        }
+
+        .question-text {
+            font-size: 16px;
+            font-weight: 400;
+            margin-bottom: 15px;
+        }
+
+        /* Custom Radio Buttons */
+        .options-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        @media (max-width: 600px) {
+            .options-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .option-label {
+            display: block;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .option-label input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .option-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 12px;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            transition: all 0.2s;
+            height: 100%;
+            text-align: center;
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
+        .option-label input:checked ~ .option-content {
+            background: #E8F6F3;
+            border-color: var(--secondary-color);
+            color: var(--primary-color);
+            font-weight: 600;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .option-label:hover .option-content {
+            background: #fff;
+            border-color: #ccc;
+        }
+
+        /* Submit Button */
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 18px;
+            font-family: 'Kanit', sans-serif;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 20px;
+            box-shadow: 0 4px 15px rgba(74, 144, 226, 0.4);
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(74, 144, 226, 0.5);
+            background: #357ABD;
+        }
+
+        /* Result Modal/Overlay */
+        .result-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+
+        .result-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .result-card {
+            background: white;
+            width: 90%;
+            max-width: 500px;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            transform: scale(0.8);
+            transition: all 0.3s;
+        }
+
+        .result-overlay.active .result-card {
+            transform: scale(1);
+        }
+
+        .score-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            font-weight: 600;
+            margin: 0 auto 20px;
+            box-shadow: 0 10px 20px rgba(74, 144, 226, 0.3);
+        }
+
+        .result-title {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+
+        .result-desc {
+            font-size: 16px;
+            color: var(--text-light);
+            margin-bottom: 25px;
+        }
+
+        .btn-close {
+            padding: 10px 30px;
+            background: #eee;
+            border: none;
+            border-radius: 30px;
+            font-family: 'Kanit', sans-serif;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-close:hover {
+            background: #ddd;
+        }
+        
+        .error-msg {
+            color: var(--danger-color);
+            text-align: center;
+            display: none;
+            margin-top: 10px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header style="text-align: center; padding: 20px;">
+    <img src="https://img2.pic.in.th/pic/Gemini_Generated_Image_6acugb6acugb6acu.png" alt="โลโก้" style="width: 100px; height: auto; margin-bottom: 10px;">
+    
+    <h1><i class="fas fa-heart-pulse"></i> เช็คระดับความสุข กับ ครูเจโว</h1>
+    <p>แบบประเมินความสุขและสุขภาพจิตคนไทย (ฉบับคัดย่อ 20 ข้อ)</p>
+</header>
+
+        <form id="assessmentForm" class="form-content">
+            <div class="instruction">
+                <i class="fas fa-info-circle"></i> <strong>คำชี้แจง:</strong> ในช่วง 1 เดือนที่ผ่านมาจนถึงปัจจุบัน ท่านมีความรู้สึกเหล่านี้ในระดับใด (กรุณาตอบตามความเป็นจริง)
+            </div>
+
+            <div id="questionsContainer"></div>
+
+            <p id="errorMessage" class="error-msg">กรุณาตอบคำถามให้ครบทุกข้อ</p>
+            <button type="submit" class="btn-submit">ประมวลผลคะแนน</button>
+        </form>
+    </div>
+
+    <div class="result-overlay" id="resultModal">
+        <div class="result-card">
+            <div class="score-circle" id="scoreDisplay">0</div>
+            <h2 class="result-title" id="resultLevel">ระดับความสุข</h2>
+            <p class="result-desc" id="resultText">คำอธิบาย...</p>
+            <button class="btn-close" onclick="closeModal()">ปิดหน้าต่าง</button>
+        </div>
+    </div>
+
+    <script>
+        // ข้อมูลคำถาม 20 ข้อ (type: 1 = เชิงบวก, -1 = เชิงลบ)
+        const questions = [
+            // ส่วนที่ 1: สภาพจิตใจ
+            { id: 1, text: "1. ท่านรู้สึกพึงพอใจในชีวิต", type: 1, group: "สภาพจิตใจ" },
+            { id: 2, text: "2. ท่านรู้สึกสบายใจ", type: 1, group: "สภาพจิตใจ" },
+            { id: 3, text: "3. ท่านรู้สึกเบื่อหน่ายท้อแท้กับการดำเนินชีวิตประจำวัน", type: -1, group: "สภาพจิตใจ" },
+            { id: 4, text: "4. ท่านรู้สึกว่าชีวิตของท่านมีแต่ความทุกข์", type: -1, group: "สภาพจิตใจ" },
+            { id: 5, text: "5. ท่านรู้สึกภูมิใจในตนเอง", type: 1, group: "สภาพจิตใจ" },
+            
+            // ส่วนที่ 2: สมรรถภาพทางจิตใจ
+            { id: 6, text: "6. ท่านรู้สึกประสบความสำเร็จและความก้าวหน้าในชีวิต", type: 1, group: "สมรรถภาพทางจิตใจ" },
+            { id: 7, text: "7. ท่านเห็นว่าปัญหาส่วนใหญ่เป็นสิ่งที่แก้ไขได้", type: 1, group: "สมรรถภาพทางจิตใจ" },
+            { id: 8, text: "8. ท่านมั่นใจที่จะเผชิญกับเหตุการณ์ร้ายแรงที่เกิดขึ้นในชีวิต", type: 1, group: "สมรรถภาพทางจิตใจ" },
+            { id: 9, text: "9. ท่านสามารถทำใจยอมรับได้สำหรับปัญหาที่ยากจะแก้ไข", type: 1, group: "สมรรถภาพทางจิตใจ" },
+            { id: 10, text: "10. ท่านมั่นใจว่าจะสามารถควบคุมอารมณ์ได้เมื่อมีเหตุการณ์คับขัน", type: 1, group: "สมรรถภาพทางจิตใจ" },
+
+            // ส่วนที่ 3: คุณภาพจิตใจ
+            { id: 11, text: "11. ท่านรู้สึกเห็นใจเมื่อผู้อื่นมีทุกข์", type: 1, group: "คุณภาพจิตใจ" },
+            { id: 12, text: "12. ท่านรู้สึกเป็นสุขในการช่วยเหลือผู้อื่นเมื่อมีโอกาส", type: 1, group: "คุณภาพจิตใจ" },
+            { id: 13, text: "13. ท่านมีความสุขกับการริเริ่มงานใหม่ๆ และมุ่งมั่นที่จะทำให้สำเร็จ", type: 1, group: "คุณภาพจิตใจ" },
+            { id: 14, text: "14. ท่านมีสิ่งยึดเหนี่ยวสูงสุดในจิตใจที่ทำให้จิตใจมั่นคง", type: 1, group: "คุณภาพจิตใจ" },
+
+            // ส่วนที่ 4: ปัจจัยสนับสนุน
+            { id: 15, text: "15. ท่านมีสัมพันธภาพที่ดีกับเพื่อนบ้านหรือเพื่อนร่วมงาน", type: 1, group: "ปัจจัยสนับสนุน" },
+            { id: 16, text: "16. ท่านรู้สึกมั่นคง ปลอดภัยเมื่ออยู่ในครอบครัว", type: 1, group: "ปัจจัยสนับสนุน" },
+            { id: 17, text: "17. หากท่านป่วยหนัก ท่านเชื่อว่าครอบครัวจะดูแลท่านเป็นอย่างดี", type: 1, group: "ปัจจัยสนับสนุน" },
+            { id: 18, text: "18. สมาชิกในครอบครัวมีความรักและผูกพันต่อกัน", type: 1, group: "ปัจจัยสนับสนุน" },
+            { id: 19, text: "19. ท่านมีเพื่อนหรือคนอื่นๆ ในสังคมคอยช่วยเหลือท่านในยามที่ต้องการ", type: 1, group: "ปัจจัยสนับสนุน" },
+            { id: 20, text: "20. ท่านมั่นใจว่าชุมชนที่ท่านอาศัยอยู่มีความปลอดภัยต่อท่าน", type: 1, group: "ปัจจัยสนับสนุน" }
+        ];
+
+        const choices = [
+            { label: "ไม่เลย", value: 1 },
+            { label: "เล็กน้อย", value: 2 },
+            { label: "มาก", value: 3 },
+            { label: "มากที่สุด", value: 4 }
+        ];
+
+        // Render Questions
+        const container = document.getElementById('questionsContainer');
+        let currentGroup = "";
+
+        questions.forEach((q, index) => {
+            // Check for group header
+            if (q.group !== currentGroup) {
+                const groupHeader = document.createElement('h3');
+                groupHeader.className = 'question-group-title';
+                groupHeader.textContent = q.group;
+                container.appendChild(groupHeader);
+                currentGroup = q.group;
+            }
+
+            const item = document.createElement('div');
+            item.className = 'question-item';
+
+            let optionsHtml = '';
+            choices.forEach(c => {
+                optionsHtml += `
+                    <label class="option-label">
+                        <input type="radio" name="q${q.id}" value="${c.value}" required>
+                        <div class="option-content">
+                            <span>${c.label}</span>
+                        </div>
+                    </label>
+                `;
+            });
+
+            item.innerHTML = `
+                <div class="question-text">${q.text}</div>
+                <div class="options-container">
+                    ${optionsHtml}
+                </div>
+            `;
+            container.appendChild(item);
+        });
+
+        // Form Submit Logic
+        document.getElementById('assessmentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            let totalScore = 0;
+            let answeredCount = 0;
+
+            // Calculate Score
+            questions.forEach(q => {
+                const val = formData.get(`q${q.id}`);
+                if (val) {
+                    let score = parseInt(val);
+                    // กลับคะแนนสำหรับข้อคำถามเชิงลบ (ข้อ 3 และ 4)
+                    if (q.type === -1) {
+                        score = 5 - score; // (1->4, 2->3, 3->2, 4->1)
+                    }
+                    totalScore += score;
+                    answeredCount++;
+                }
+            });
+
+            if (answeredCount < questions.length) {
+                document.getElementById('errorMessage').style.display = 'block';
+                return;
+            } else {
+                document.getElementById('errorMessage').style.display = 'none';
+            }
+
+            showResult(totalScore);
+        });
+
+        function showResult(score) {
+            const modal = document.getElementById('resultModal');
+            const scoreDisplay = document.getElementById('scoreDisplay');
+            const resultLevel = document.getElementById('resultLevel');
+            const resultText = document.getElementById('resultText');
+
+            scoreDisplay.textContent = score;
+
+            // เกณฑ์การประเมิน (ประมาณการจากการย่อส่วน)
+            // Min 20, Max 80
+            // เกณฑ์: 
+            // < 45 : สุขภาพจิตต่ำกว่าคนทั่วไป (ควรดูแลตนเองเป็นพิเศษ)
+            // 46 - 65 : สุขภาพจิตระดับปานกลาง (คนทั่วไป)
+            // > 65 : สุขภาพจิตดี (มีความสุข)
+
+            if (score <= 45) {
+                resultLevel.textContent = "ระดับสุขภาพจิต : ควรดูแลใจ";
+                resultLevel.style.color = "#E74C3C";
+                resultText.textContent = "คะแนนของท่านอยู่ในเกณฑ์ที่ควรได้รับกำลังใจและความดูแล ท่านอาจมีความเครียดสะสม หากรู้สึกไม่สบายใจควรปรึกษาผู้เชี่ยวชาญหรือคนใกล้ชิด";
+            } else if (score <= 65) {
+                resultLevel.textContent = "ระดับสุขภาพจิต : ปานกลาง";
+                resultLevel.style.color = "#F1C40F";
+                resultText.textContent = "สุขภาพจิตของท่านอยู่ในเกณฑ์คนทั่วไป สามารถรับมือกับปัญหาต่างๆ ได้ดีตามสถานการณ์";
+            } else {
+                resultLevel.textContent = "ระดับสุขภาพจิต : ดีเยี่ยม";
+                resultLevel.style.color = "#2ECC71";
+                resultText.textContent = "ท่านมีความสุขและสุขภาพจิตที่ดี มีความมั่นคงทางอารมณ์ และมีปัจจัยสนับสนุนที่ดี";
+            }
+
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('resultModal').classList.remove('active');
+        }
+    </script>
+</body>
+</html>
