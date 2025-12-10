@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แบบทดสอบความรู้จากการอบรม (Canva, AI, CapCut)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <style>
+        body {
+            font-family: 'Prompt', sans-serif;
+            background-color: #f3f4f6;
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .option-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .correct-answer {
+            background-color: #d1fae5 !important;
+            border-color: #10b981 !important;
+            color: #065f46 !important;
+        }
+        .wrong-answer {
+            background-color: #fee2e2 !important;
+            border-color: #ef4444 !important;
+            color: #991b1b !important;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-500 to-purple-600 p-4">
+
+    <!-- Main Container -->
+    <div id="app-container" class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden min-h-[500px] flex flex-col relative">
+        
+        <!-- Screen 1: Welcome -->
+        <div id="welcome-screen" class="flex-1 flex flex-col items-center justify-center p-8 text-center fade-in">
+<div class="mb-6 bg-blue-100 p-4 rounded-full flex items-center justify-center">
+    <img src="https://img5.pic.in.th/file/secure-sv1/logojay.png" alt="icon" class="w-80 h-80 object-cover rounded-full">
+     <!-- เปลี่ยนรูปภาพตรงนี้ -->
+</div>
+            <h1 class="text-3xl font-bold text-gray-800 mb-2">ยินดีต้อนรับเข้าสู่แบบทดสอบ</h1>
+            <p class="text-gray-600 mb-8 text-lg">การสร้างสื่อประชาสัมพันธ์และวิดีโอด้วย Canva, AI และ CapCut</p>
+            <div class="space-y-4">
+                <div class="flex items-center justify-center space-x-2 text-gray-500 text-sm">
+                    <span><i class="fa-solid fa-list-check"></i> 20 ข้อ</span>
+                    <span>•</span>
+                    <span><i class="fa-solid fa-clock"></i> ไม่จำกัดเวลา</span>
+                </div>
+                <button onclick="goToNameInput()" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-full transition duration-300 shadow-lg transform hover:scale-105">
+                    เข้าสู่เว็บไซต์ <i class="fa-solid fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Screen 2: Name Input -->
+        <div id="name-screen" class="hidden flex-1 flex flex-col items-center justify-center p-8 text-center fade-in">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">กรุณาระบุข้อมูลผู้สอบ</h2>
+            <div class="w-full max-w-md space-y-4">
+                <div class="text-left">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
+                        ชื่อ - นามสกุล
+                    </label>
+                    <input class="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" id="username" type="text" placeholder="กรอกชื่อของคุณที่นี่...">
+                    <p id="name-error" class="text-red-500 text-xs italic mt-2 hidden">กรุณากรอกชื่อก่อนเริ่มทำแบบทดสอบ</p>
+                </div>
+                <button onclick="startQuiz()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300 mt-4 shadow-md">
+                    เริ่มทำแบบทดสอบ
+                </button>
+            </div>
+            <button onclick="showScreen('welcome-screen')" class="mt-6 text-gray-500 hover:text-gray-700 text-sm">
+                <i class="fa-solid fa-arrow-left"></i> ย้อนกลับ
+            </button>
+        </div>
+
+        <!-- Screen 3: Quiz -->
+        <div id="quiz-screen" class="hidden flex-1 flex flex-col p-6 fade-in h-full">
+            <!-- Header -->
+            <div class="flex justify-between items-center mb-6 pb-4 border-b">
+                <div>
+                    <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blue-600 bg-blue-200 uppercase last:mr-0 mr-1">
+                        คำถามที่ <span id="current-question-num">1</span>/20
+                    </span>
+                </div>
+                <div class="text-gray-600 font-medium" id="user-display-name"></div>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="w-full bg-gray-200 rounded-full h-2.5 mb-6">
+                <div id="progress-bar" class="bg-blue-600 h-2.5 rounded-full transition-all duration-300" style="width: 5%"></div>
+            </div>
+
+            <!-- Question -->
+            <div class="flex-grow overflow-y-auto mb-4">
+                <h3 id="question-text" class="text-xl font-semibold text-gray-800 mb-6 leading-relaxed">
+                    <!-- Question goes here -->
+                </h3>
+                
+                <div id="options-container" class="space-y-3">
+                    <!-- Options go here -->
+                </div>
+            </div>
+
+            <!-- Footer / Next Button -->
+            <div class="mt-auto pt-4 border-t flex justify-end">
+                <button id="next-btn" onclick="nextQuestion()" class="bg-gray-400 text-white font-bold py-2 px-6 rounded-lg cursor-not-allowed transition duration-300" disabled>
+                    ถัดไป <i class="fa-solid fa-chevron-right ml-1"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Screen 4: Result -->
+        <div id="result-screen" class="hidden flex-1 flex flex-col items-center justify-center p-8 text-center fade-in">
+            <div class="mb-4">
+                <i class="fa-solid fa-trophy text-6xl text-yellow-400 drop-shadow-md"></i>
+            </div>
+            <h2 class="text-3xl font-bold text-gray-800 mb-2">สรุปผลคะแนน</h2>
+            <p class="text-gray-600 text-lg mb-6">คุณ <span id="result-name" class="font-bold text-blue-600"></span></p>
+            
+            <div class="bg-gray-50 rounded-xl p-8 mb-8 w-full max-w-sm border border-gray-200 shadow-inner">
+                <div class="text-5xl font-bold text-blue-600 mb-2">
+                    <span id="final-score">0</span><span class="text-2xl text-gray-400">/20</span>
+                </div>
+                <p id="score-message" class="text-gray-500 font-medium">ยอดเยี่ยมมาก!</p>
+            </div>
+
+            <div class="flex space-x-4">
+                <button onclick="restartQuiz()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-full transition duration-300 shadow-md">
+                    <i class="fa-solid fa-rotate-right mr-2"></i> ทำแบบทดสอบอีกครั้ง
+                </button>
+                <button onclick="window.print()" class="bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 font-bold py-2 px-6 rounded-full transition duration-300 shadow-sm">
+                    <i class="fa-solid fa-print mr-2"></i> พิมพ์ผล
+                </button>
+
+                <button onclick="showScreen('welcome-screen')" class="mt-6 text-gray-500 hover:text-gray-700 text-sm">
+                    <i class="fa-solid fa-arrow-left"></i> ย้อนกลับ
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Data Questions
+        const questionsData = [
+            {
+                question: "ในการตั้งค่าหน้ากระดาษสำหรับงานพิมพ์ไวนิลขนาดใหญ่ใน Canva ควรเลือกหน่วยวัดเป็นอะไร",
+                options: ["px (พิกเซล)", "cm (เซนติเมตร) หรือ in (นิ้ว)", "mm (มิลลิเมตร)", "pt (พอยท์)"],
+                correct: 1 // Index of correct answer
+            },
+            {
+                question: "ฟอนต์ภาษาไทยใดที่แนะนำสำหรับใช้เป็น 'หัวข้อหลัก' เพื่อให้อ่านง่ายและดูทันสมัย ตามคู่มือ",
+                options: ["Sarabun", "Chakra Petch", "Angsana New", "Cordia New"],
+                correct: 1
+            },
+            {
+                question: "ข้อใดคือสิ่งที่ **ไม่ควรทำ** เมื่อส่งออกไฟล์ (Export) เพื่อส่งร้านพิมพ์ไวนิลขนาดใหญ่",
+                options: ["เลือก File Type เป็น PDF Print", "เลือก Color Profile เป็น CMYK", "เซฟเป็นไฟล์ JPG", "ตรวจสอบขนาดไฟล์ก่อนส่ง"],
+                correct: 2
+            },
+            {
+                question: "ฟีเจอร์ใดใน Canva ที่ช่วยสร้างรูปภาพจากข้อความ (Text to Image) สำหรับบัญชี Canva Education",
+                options: ["Magic Media (สื่อมายากล)", "Background Remover", "Magic Eraser", "Magic Switch"],
+                correct: 0
+            },
+            {
+                question: "ใน Google AI Studio หากต้องการเสียงบรรยายที่มีพลังและความมั่นใจ ควรเลือกโทนเสียงชื่ออะไร",
+                options: ["Puck", "Kore", "Aoede", "Fenrir"],
+                correct: 2
+            },
+            {
+                question: "การใส่ 'System Instructions' ใน Google AI Studio มีวัตถุประสงค์หลักเพื่ออะไร",
+                options: ["เพื่อแปลภาษาอัตโนมัติ", "เพื่อกำหนดบุคลิกและโทนเสียงของ AI", "เพื่อเพิ่มความเร็วในการประมวลผล", "เพื่อลดเสียงรบกวน"],
+                correct: 1
+            },
+            {
+                question: "เว็บไซต์ vocalremover.org มีฟีเจอร์ 'Splitter' ไว้สำหรับทำอะไร",
+                options: ["บันทึกเสียง", "แยกเสียงร้องออกจากเสียงดนตรี", "รวมไฟล์เสียงหลายไฟล์", "แปลงไฟล์เป็นข้อความ"],
+                correct: 1
+            },
+            {
+                question: "ปุ่มลัด (Shortcut) สำหรับการหั่นคลิป (Split) ในโปรแกรม CapCut PC คือข้อใด",
+                options: ["Ctrl + C", "Ctrl + V", "Ctrl + B", "Ctrl + Z"],
+                correct: 2
+            },
+            {
+                question: "ใน CapCut PC ฟังก์ชัน 'Magnet' (แม่เหล็ก) มีประโยชน์อย่างไร",
+                options: ["ช่วยดูดเสียงรบกวนออก", "ทำให้คลิปดูดติดกันเสมอ ไม่มีช่องว่างสีดำ", "ช่วยให้เรนเดอร์วิดีโอเร็วขึ้น", "ช่วยปรับสีวิดีโออัตโนมัติ"],
+                correct: 1
+            },
+            {
+                question: "โครงสร้างการเล่าเรื่องสำหรับคลิปแรงบันดาลใจ (10 นาที) แบ่งออกเป็น 3 ช่วง คืออะไรบ้าง",
+                options: ["บทนำ, เนื้อหา, เอกสารอ้างอิง", "สภาพปัญหา, วิธีการแก้ปัญหา, ผลลัพธ์", "การเตรียมตัว, การสอน, การสอบ", "ทฤษฎี, ปฏิบัติ, สรุป"],
+                correct: 1
+            },
+            {
+                question: "ในการตัดต่อวิดีโอช่วงที่ครูกำลังบรรยาย ควรใช้แทร็กใดในการแสดงภาพผลงานนักเรียนซ้อนขึ้นมา",
+                options: ["Main Track", "Audio Track", "Overlay Track", "Filter Track"],
+                correct: 2
+            },
+            {
+                question: "ระดับเสียงดนตรีประกอบ (BGM) ที่เหมาะสมขณะที่มีคนพูดบรรยาย ควรอยู่ที่ประมาณเท่าใด",
+                options: ["0 dB", "-5 dB ถึง -10 dB", "-20 dB ถึง -25 dB", "+5 dB"],
+                correct: 2
+            },
+            {
+                question: "เว็บไซต์ใดที่แนะนำสำหรับการหาเพลงประกอบวิดีโอที่ฟรีและปลอดภัยจากลิขสิทธิ์ 100%",
+                options: ["YouTube Audio Library", "4shared", "Spotify", "Joox"],
+                correct: 0
+            },
+            {
+                question: "คำค้นหา (Keyword) ใดที่เหมาะสำหรับหาเพลงประกอบคลิปปฐมวัยแนวน่ารักสดใส",
+                options: ["Dramatic, Dark", "Ukulele, Playful, Cute", "Rock, Metal", "Sad, Piano"],
+                correct: 1
+            },
+            {
+                question: "เทคนิค 'Audio Ducking' ใน CapCut คืออะไร",
+                options: ["การทำเสียงเป็ดร้อง", "การเร่งความเร็วเสียงให้เหมือนการ์ตูน", "การทำให้เสียงเพลงเบาลงอัตโนมัติเฉพาะตอนที่มีคนพูด", "การตัดเสียงรบกวนรอบข้าง"],
+                correct: 2
+            },
+            {
+                question: "เครื่องมือใดใน CapCut ที่ใช้กำหนดจุดเริ่มต้นและจุดสิ้นสุดเพื่อปรับระดับเสียงขึ้น-ลง ในช่วงเวลาสั้นๆ",
+                options: ["Keyframe (ปุ่มเพชร)", "Split", "Speed", "Animation"],
+                correct: 0
+            },
+            {
+                question: "ข้อใด **ไม่ใช่** เทคนิคการเล่าเรื่องที่ดีสำหรับคลิป วPA ของครู",
+                options: ["ใช้ Transition แบบเรียบง่าย เช่น Dissolve", "ใส่เอฟเฟกต์หวือหวาและเสียงประกอบตลกตลอดเวลา", "ใช้เทคนิค Cut on Action", "ปรับลดเสียงดนตรีไม่ให้กลบเสียงพูด"],
+                correct: 1
+            },
+            {
+                question: "การใช้ 'Dissolve' ระหว่างเปลี่ยนหัวข้อ มีผลดีอย่างไร",
+                options: ["ทำให้ผู้ชมตกใจและตื่นเต้น", "เชื่อมโยงการเปลี่ยนผ่านอย่างนุ่มนวล ไม่สะดุดสายตา", "ทำให้ภาพชัดขึ้น", "ช่วยแยกเสียงรบกวน"],
+                correct: 1
+            },
+            {
+                question: "หากต้องการบันทึกเสียง (Voice Over) ลงในเว็บไซต์ vocalremover.org ต้องเลือกเมนูใด",
+                options: ["Splitter", "Pitcher", "Recorder", "Cutter"],
+                correct: 2
+            },
+            {
+                question: "คลิปการสอน (60 นาที) แตกต่างจากคลิปแรงบันดาลใจ (10 นาที) ในแง่การตัดต่ออย่างไร",
+                options: ["คลิปการสอนห้ามตัดต่อเนื้อหาภายใน (Long take) ตัดได้แค่หัว-ท้าย", "คลิปการสอนต้องใส่เอฟเฟกต์เยอะๆ ให้นักเรียนสนใจ", "คลิปแรงบันดาลใจห้ามใส่เพลงประกอบ", "ไม่มีข้อแตกต่าง ตัดต่อได้เหมือนกัน"],
+                correct: 0
+            }
+        ];
+
+        // State Variables
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let userName = "";
+        let selectedOptionIndex = null;
+
+        // Functions
+        function showScreen(screenId) {
+            document.getElementById('welcome-screen').classList.add('hidden');
+            document.getElementById('name-screen').classList.add('hidden');
+            document.getElementById('quiz-screen').classList.add('hidden');
+            document.getElementById('result-screen').classList.add('hidden');
+            
+            const screen = document.getElementById(screenId);
+            screen.classList.remove('hidden');
+            screen.classList.add('fade-in');
+        }
+
+        function goToNameInput() {
+            showScreen('name-screen');
+        }
+
+        function startQuiz() {
+            const nameInput = document.getElementById('username');
+            const errorMsg = document.getElementById('name-error');
+            
+            if (nameInput.value.trim() === "") {
+                errorMsg.classList.remove('hidden');
+                return;
+            }
+            
+            userName = nameInput.value;
+            errorMsg.classList.add('hidden');
+            document.getElementById('user-display-name').innerText = userName;
+            
+            // Reset state
+            currentQuestionIndex = 0;
+            score = 0;
+            
+            showScreen('quiz-screen');
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            const q = questionsData[currentQuestionIndex];
+            
+            // Update Progress
+            document.getElementById('current-question-num').innerText = currentQuestionIndex + 1;
+            const progressPercent = ((currentQuestionIndex + 1) / questionsData.length) * 100;
+            document.getElementById('progress-bar').style.width = `${progressPercent}%`;
+
+            // Update Text
+            document.getElementById('question-text').innerText = q.question;
+
+            // Generate Options
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+            
+            q.options.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn w-full text-left p-4 rounded-lg border-2 border-gray-200 hover:border-blue-400 bg-white transition duration-200 text-gray-700 font-medium mb-2';
+                btn.innerText = opt;
+                btn.onclick = () => selectOption(index, btn);
+                optionsContainer.appendChild(btn);
+            });
+
+            // Disable Next Button
+            const nextBtn = document.getElementById('next-btn');
+            nextBtn.disabled = true;
+            nextBtn.classList.add('bg-gray-400', 'cursor-not-allowed');
+            nextBtn.classList.remove('bg-blue-600', 'hover:bg-blue-700', 'cursor-pointer');
+            
+            selectedOptionIndex = null;
+        }
+
+        function selectOption(index, btnElement) {
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.option-btn');
+            buttons.forEach(b => {
+                b.classList.remove('border-blue-500', 'bg-blue-50', 'text-blue-700', 'ring-2', 'ring-blue-200');
+                b.classList.add('border-gray-200', 'bg-white', 'text-gray-700');
+            });
+
+            // Add active class to selected
+            btnElement.classList.remove('border-gray-200', 'bg-white', 'text-gray-700');
+            btnElement.classList.add('border-blue-500', 'bg-blue-50', 'text-blue-700', 'ring-2', 'ring-blue-200');
+            
+            selectedOptionIndex = index;
+
+            // Enable Next Button
+            const nextBtn = document.getElementById('next-btn');
+            nextBtn.disabled = false;
+            nextBtn.classList.remove('bg-gray-400', 'cursor-not-allowed');
+            nextBtn.classList.add('bg-blue-600', 'hover:bg-blue-700', 'cursor-pointer');
+        }
+
+        function nextQuestion() {
+            // Check answer logic could be here if we want immediate feedback
+            // For now, let's just record score
+            if (selectedOptionIndex === questionsData[currentQuestionIndex].correct) {
+                score++;
+            }
+
+            currentQuestionIndex++;
+
+            if (currentQuestionIndex < questionsData.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            showScreen('result-screen');
+            document.getElementById('result-name').innerText = userName;
+            document.getElementById('final-score').innerText = score;
+            
+            const messageEl = document.getElementById('score-message');
+            const percent = (score / questionsData.length) * 100;
+            
+            if (percent >= 80) {
+                messageEl.innerText = "ยอดเยี่ยมมาก! คุณมีความเข้าใจในเนื้อหาเป็นอย่างดี";
+                messageEl.className = "text-green-600 font-medium";
+            } else if (percent >= 50) {
+                messageEl.innerText = "ทำได้ดี! ทบทวนเนื้อหาอีกนิดก็จะสมบูรณ์แบบ";
+                messageEl.className = "text-yellow-600 font-medium";
+            } else {
+                messageEl.innerText = "อย่าเพิ่งท้อ! ลองกลับไปอ่านคู่มือและทำใหม่นะ";
+                messageEl.className = "text-red-600 font-medium";
+            }
+        }
+
+        function restartQuiz() {
+            // Keep name, reset score and index
+            currentQuestionIndex = 0;
+            score = 0;
+            showScreen('quiz-screen');
+            loadQuestion();
+        }
+    </script>
+</body>
+</html>
