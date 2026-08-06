@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LINE File Vault Dashboard</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Prompt -->
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body { font-family: 'Prompt', sans-serif; }
+  </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen">
+
+  <!-- Top Navbar -->
+  <nav class="bg-slate-800/80 backdrop-blur-md border-b border-slate-700/60 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="p-2 bg-emerald-500/10 text-emerald-400 rounded-xl border border-emerald-500/20">
+          <i data-lucide="folder-git-2" class="w-6 h-6"></i>
+        </div>
+        <div>
+          <h1 class="font-bold text-lg text-white">ระบบดึงไฟล์จาก LINE</h1>
+          <p class="text-xs text-slate-400">ระบบรายงานและจัดการไฟล์อัตโนมัติ</p>
+        </div>
+      </div>
+      <button onclick="loadData()" class="flex items-center space-x-2 text-xs bg-slate-700 hover:bg-slate-600 px-3 py-2 rounded-lg transition border border-slate-600 text-slate-200">
+        <i data-lucide="refresh-cw" class="w-4 h-4" id="refresh-icon"></i>
+        <span>รีเฟรชข้อมูล</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Main Container -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+
+    <!-- Stat Cards Overview -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+      <!-- Total Files -->
+      <div class="bg-slate-800/50 border border-slate-700/60 rounded-2xl p-5 flex items-center justify-between">
+        <div>
+          <p class="text-xs font-medium text-slate-400 uppercase tracking-wider">จำนวนไฟล์ทั้งหมด</p>
+          <h3 class="text-3xl font-bold text-white mt-1" id="stat-total-files">0</h3>
+        </div>
+        <div class="p-3 bg-blue-500/10 text-blue-400 rounded-xl border border-blue-500/20">
+          <i data-lucide="file-text" class="w-7 h-7"></i>
+        </div>
+      </div>
+
+      <!-- Total Senders -->
+      <div class="bg-slate-800/50 border border-slate-700/60 rounded-2xl p-5 flex items-center justify-between">
+        <div>
+          <p class="text-xs font-medium text-slate-400 uppercase tracking-wider">จำนวนผู้ส่ง</p>
+          <h3 class="text-3xl font-bold text-emerald-400 mt-1" id="stat-total-senders">0</h3>
+        </div>
+        <div class="p-3 bg-emerald-500/10 text-emerald-400 rounded-xl border border-emerald-500/20">
+          <i data-lucide="users" class="w-7 h-7"></i>
+        </div>
+      </div>
+
+      <!-- Latest Update -->
+      <div class="bg-slate-800/50 border border-slate-700/60 rounded-2xl p-5 flex items-center justify-between">
+        <div>
+          <p class="text-xs font-medium text-slate-400 uppercase tracking-wider">ไฟล์ล่าสุดเมื่อ</p>
+          <h3 class="text-sm font-semibold text-slate-200 mt-2 truncate" id="stat-latest-time">-</h3>
+        </div>
+        <div class="p-3 bg-amber-500/10 text-amber-400 rounded-xl border border-amber-500/20">
+          <i data-lucide="clock" class="w-7 h-7"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- Search & Filters Section -->
+    <div class="bg-slate-800/40 border border-slate-700/60 rounded-2xl p-4 flex flex-col md:flex-row gap-4 justify-between items-center">
+      <div class="relative w-full md:w-96">
+        <i data-lucide="search" class="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
+        <input type="text" id="searchInput" oninput="filterData()" placeholder="ค้นหาชื่อไฟล์ หรือชื่อผู้ส่ง..." 
+          class="w-full pl-10 pr-4 py-2.5 bg-slate-900/80 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-emerald-500 placeholder-slate-500">
+      </div>
+      <div class="text-xs text-slate-400 w-full md:w-auto text-right">
+        แสดงผล <span id="showing-count" class="font-semibold text-emerald-400">0</span> รายการ
+      </div>
+    </div>
+
+    <!-- Data Table Container -->
+    <div class="bg-slate-800/40 border border-slate-700/60 rounded-2xl overflow-hidden shadow-xl">
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-sm text-slate-300">
+          <thead class="bg-slate-800/80 text-xs font-semibold uppercase tracking-wider text-slate-400 border-b border-slate-700/60">
+            <tr>
+              <th scope="col" class="px-6 py-4">วัน-เวลาที่บันทึก</th>
+              <th scope="col" class="px-6 py-4">ชื่อผู้ส่ง</th>
+              <th scope="col" class="px-6 py-4">ชื่อไฟล์</th>
+              <th scope="col" class="px-6 py-4 text-center">เปิดใน Drive</th>
+            </tr>
+          </thead>
+          <tbody id="table-body" class="divide-y divide-slate-700/40">
+            <!-- Table Rows Inserted via JS -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Loading Spinner -->
+      <div id="loading" class="py-16 text-center text-slate-400">
+        <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-slate-700 border-t-emerald-500 mb-3"></div>
+        <p class="text-xs">กำลังโหลดข้อมูลจาก Google Sheets...</p>
+      </div>
+
+      <!-- Empty State -->
+      <div id="empty-state" class="hidden py-16 text-center text-slate-400 space-y-2">
+        <i data-lucide="inbox" class="w-10 h-10 mx-auto text-slate-500"></i>
+        <p class="text-sm font-medium text-slate-300">ไม่พบข้อมูลไฟล์</p>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // 🔴 นำ Web App URL ที่ได้จาก Google Apps Script มาวางตรงนี้
+    const API_URL = 'https://script.google.com/macros/s/AKfycbzBVJm7Rgd2oM8BJAtm3q-riGsnKQkN868A1a4p2mFI2Hk53JPdQcemxKgEhzOfgTDY/exec';
+
+    let rawData = [];
+
+    document.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+      loadData();
+    });
+
+    async function loadData() {
+      const refreshIcon = document.getElementById('refresh-icon');
+      refreshIcon.classList.add('animate-spin');
+      document.getElementById('loading').classList.remove('hidden');
+      document.getElementById('table-body').innerHTML = '';
+
+      try {
+        const response = await fetch(API_URL);
+        if (!response.ok) throw new Error('Network response was not ok');
+        
+        rawData = await response.json();
+        onDataLoaded(rawData);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        document.getElementById('loading').classList.add('hidden');
+        alert('เกิดข้อผิดพลาดในการโหลดข้อมูล โปรดตรวจสอบ API URL หรือสิทธิ์เข้าถึงของ Google Apps Script');
+      } finally {
+        refreshIcon.classList.remove('animate-spin');
+      }
+    }
+
+    function onDataLoaded(data) {
+      document.getElementById('loading').classList.add('hidden');
+      updateStats();
+      renderTable(rawData);
+    }
+
+    function updateStats() {
+      document.getElementById('stat-total-files').textContent = rawData.length;
+      
+      const senders = new Set(rawData.map(item => item.sender));
+      document.getElementById('stat-total-senders').textContent = senders.size;
+
+      if (rawData.length > 0) {
+        document.getElementById('stat-latest-time').textContent = rawData[0].datetime || '-';
+      } else {
+        document.getElementById('stat-latest-time').textContent = '-';
+      }
+    }
+
+    function filterData() {
+      const query = document.getElementById('searchInput').value.toLowerCase().trim();
+      const filtered = rawData.filter(item => 
+        item.fileName.toLowerCase().includes(query) || 
+        item.sender.toLowerCase().includes(query)
+      );
+      renderTable(filtered);
+    }
+
+    function renderTable(data) {
+      const tbody = document.getElementById('table-body');
+      const emptyState = document.getElementById('empty-state');
+      document.getElementById('showing-count').textContent = data.length;
+
+      if (!data || data.length === 0) {
+        tbody.innerHTML = '';
+        emptyState.classList.remove('hidden');
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+      tbody.innerHTML = data.map(row => `
+        <tr class="hover:bg-slate-800/50 transition">
+          <td class="px-6 py-4 whitespace-nowrap text-xs text-slate-400 font-mono">
+            ${escapeHtml(row.datetime)}
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap font-medium text-slate-200">
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs bg-slate-800 text-emerald-400 border border-slate-700">
+              <i data-lucide="user" class="w-3 h-3"></i>
+              ${escapeHtml(row.sender)}
+            </span>
+          </td>
+          <td class="px-6 py-4">
+            <div class="flex items-center gap-2 text-slate-200 font-medium">
+              <i data-lucide="${getFileIcon(row.fileName)}" class="w-4 h-4 text-slate-400 flex-shrink-0"></i>
+              <span class="truncate max-w-xs md:max-w-md">${escapeHtml(row.fileName)}</span>
+            </div>
+          </td>
+          <td class="px-6 py-4 text-center">
+            <a href="${escapeHtml(row.driveUrl)}" target="_blank" rel="noopener noreferrer"
+               class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 border border-emerald-500/30 rounded-xl transition">
+               <span>เปิดไฟล์</span>
+               <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+            </a>
+          </td>
+        </tr>
+      `).join('');
+
+      lucide.createIcons();
+    }
+
+    function getFileIcon(filename) {
+      const ext = filename.split('.').pop().toLowerCase();
+      if (['pdf'].includes(ext)) return 'file-text';
+      if (['png', 'jpg', 'jpeg', 'gif', 'webp'].includes(ext)) return 'image';
+      if (['xls', 'xlsx', 'csv'].includes(ext)) return 'file-spreadsheet';
+      if (['doc', 'docx'].includes(ext)) return 'file-type-2';
+      return 'file';
+    }
+
+    function escapeHtml(text) {
+      return (text || '').toString()
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+  </script>
+</body>
+</html>
