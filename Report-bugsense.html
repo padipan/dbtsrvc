@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="th" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BugSense Paddy Box | Universe Intelligence Report</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        space: { 900: '#0B0F19', 800: '#111827', 700: '#1F2937' },
+                        neon: { cyan: '#06b6d4', violet: '#8b5cf6', pink: '#ec4899' }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Google Fonts (Prompt) -->
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Prompt', sans-serif; }
+        .glass-panel {
+            background: rgba(17, 24, 39, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glow-effect {
+            box-shadow: 0 0 30px -5px rgba(139, 92, 246, 0.25);
+        }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #0B0F19; }
+        ::-webkit-scrollbar-thumb { background: #1F2937; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #374151; }
+    </style>
+</head>
+<body class="bg-space-900 text-slate-100 min-h-screen selection:bg-neon-violet selection:text-white">
+
+    <!-- Hero Banner -->
+    <div class="relative overflow-hidden bg-gradient-to-r from-violet-900 via-indigo-950 to-slate-900 py-16 px-6 border-b border-white/10 shadow-2xl">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(139,92,246,0.15),transparent_50%)]"></div>
+        <div class="max-w-7xl mx-auto relative z-10 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="space-y-3 text-center md:text-left">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-neon-violet/10 border border-neon-violet/30 text-neon-violet text-xs font-semibold tracking-wide uppercase">
+                    🚀 ทีม DBT-SRVC Report
+                </div>
+                <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-200 to-indigo-300 bg-clip-text text-transparent">
+                    BugSense Paddy Box Analytics
+                </h1>
+                <p class="text-slate-400 text-sm md:text-base max-w-xl">
+                    รายงานข้อมูลสถิติ วิเคราะห์ความมั่นใจเป็นเปอร์เซ็นต์ พร้อมระบบแบ่งหน้าตารางอัจฉริยะ
+                </p>
+            </div>
+            <div class="glass-panel p-3 rounded-2xl glow-effect max-w-xs w-full flex justify-center items-center">
+                <img src="https://i.postimg.cc/VsHS53gq/Chat-GPT-Image-7-s-kh-2569-12-06-29.png" alt="Logo" class="max-h-80 object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-6 -mt-8 relative z-20 space-y-8 pb-16">
+
+        <!-- KPI Summary Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="glass-panel p-6 rounded-2xl border-l-4 border-neon-violet relative overflow-hidden group">
+                <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">จำนวนรายการทั้งหมด</p>
+                <h3 id="kpiTotal" class="text-3xl font-bold mt-2 text-white">0</h3>
+            </div>
+            <div class="glass-panel p-6 rounded-2xl border-l-4 border-cyan-400 relative overflow-hidden group">
+                <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">ความมั่นใจสูง (≥ 80%)</p>
+                <h3 id="kpiHigh" class="text-3xl font-bold mt-2 text-cyan-300">0</h3>
+            </div>
+            <div class="glass-panel p-6 rounded-2xl border-l-4 border-pink-500 relative overflow-hidden group">
+                <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">Bug ที่พบบ่อยที่สุด</p>
+                <h3 id="kpiTopBug" class="text-xl font-bold mt-2 text-pink-400 truncate">-</h3>
+            </div>
+        </div>
+
+        <!-- Filter Section -->
+        <div class="glass-panel p-6 rounded-2xl shadow-xl flex flex-wrap gap-6 items-center">
+            <div class="flex-1 min-w-[240px]">
+                <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">🔍 ค้นหา Bug Name</label>
+                <select id="bugNameFilter" class="w-full bg-space-800 border border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-200 focus:outline-none focus:border-neon-violet">
+                    <option value="all">ทุกชื่อบั๊ก (All Bugs)</option>
+                </select>
+            </div>
+            <div class="flex-1 min-w-[240px]">
+                <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">⚡ Confidence (%)</label>
+                <select id="confidenceFilter" class="w-full bg-space-800 border border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-200 focus:outline-none focus:border-neon-violet">
+                    <option value="all">ทั้งหมด (All Percentages)</option>
+                    <option value="80-100">80% - 100% (สูงมาก)</option>
+                    <option value="50-79">50% - 79% (ปานกลาง)</option>
+                    <option value="0-49">น้อยกว่า 50% (ต่ำ)</option>
+                </select>
+            </div>
+            <div class="flex items-end pt-5 md:pt-0">
+                <button onclick="resetFilters()" class="w-full md:w-auto px-6 py-3 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-xl text-xs font-semibold tracking-wider text-slate-300 transition-all">
+                    🔄 รีเซ็ตตัวกรอง
+                </button>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="glass-panel p-6 rounded-2xl shadow-xl">
+                <h3 class="text-base font-semibold text-slate-200 mb-6 flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-neon-violet"></span> สถิติความถี่ตามชื่อ Bug
+                </h3>
+                <div class="relative h-72 w-full">
+                    <canvas id="bugChart"></canvas>
+                </div>
+            </div>
+            <div class="glass-panel p-6 rounded-2xl shadow-xl">
+                <h3 class="text-base font-semibold text-slate-200 mb-6 flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-pink-500"></span> สัดส่วนช่วง Confidence (%)
+                </h3>
+                <div class="relative h-72 w-full flex justify-center items-center">
+                    <canvas id="confChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Table Section with Pagination -->
+        <div class="glass-panel p-6 rounded-2xl shadow-xl space-y-4">
+            <div class="flex justify-between items-center flex-wrap gap-4">
+                <h3 class="text-lg font-semibold text-slate-200">📋 ตารางรายงานข้อมูลทั้งหมด (แสดงทีละ 10 แถว)</h3>
+                <span id="rowCount" class="text-xs text-slate-400">แสดงผล 0 รายการ</span>
+            </div>
+            
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr id="tableHeader" class="border-b border-slate-700 text-xs font-semibold text-slate-400 uppercase">
+                            <!-- Dynamically injected headers -->
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody" class="divide-y divide-slate-800 text-sm text-slate-300">
+                        <!-- Dynamically injected rows -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination Controls -->
+            <div class="flex justify-between items-center pt-4 border-t border-slate-800">
+                <span id="pageInfo" class="text-xs text-slate-400">หน้าที่ 1 จาก 1</span>
+                <div class="flex gap-2">
+                    <button onclick="prevPage()" id="prevBtn" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 disabled:opacity-40 disabled:cursor-not-allowed border border-slate-700 rounded-xl text-xs font-semibold text-slate-300 transition">
+                        ◀ ก่อนหน้า
+                    </button>
+                    <button onclick="nextPage()" id="nextBtn" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 disabled:opacity-40 disabled:cursor-not-allowed border border-slate-700 rounded-xl text-xs font-semibold text-slate-300 transition">
+                        หน้าถัดไป ▶
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Script -->
+    <script>
+        const sheetID = '1ReLxCZWF-4awYyV5st4A6RrFoFs8RNEXnNXB71w4fnk';
+        const url = `https://docs.google.com/spreadsheets/d/${sheetID}/export?format=csv`;
+        
+        let rawData = [];
+        let filteredData = [];
+        let headers = [];
+        let currentPage = 1;
+        const rowsPerPage = 10;
+
+        let bugChartInstance = null;
+        let confChartInstance = null;
+
+        async function init() {
+            try {
+                const res = await fetch(url);
+                const csv = await res.text();
+                const rows = csv.split('\n').map(row => row.split(',').map(val => val.trim().replace(/^"|"$/g, '')));
+                headers = rows[0].filter(h => h.length > 0);
+                
+                rawData = rows.slice(1).map(row => {
+                    let obj = {};
+                    headers.forEach((h, i) => obj[h] = row[i] || '');
+                    return obj;
+                }).filter(d => d.BugName);
+
+                filteredData = [...rawData];
+                populateFilters();
+                updateDashboard();
+            } catch (error) {
+                console.error("Error loading data:", error);
+            }
+        }
+
+        function populateFilters() {
+            const names = [...new Set(rawData.map(d => d.BugName))].filter(Boolean);
+            const select = document.getElementById('bugNameFilter');
+            select.innerHTML = '<option value="all">ทุกชื่อบั๊ก (All Bugs)</option>' + names.map(n => `<option value="${n}">${n}</option>`).join('');
+        }
+
+        function parseConfidenceValue(val) {
+            if (!val) return 0;
+            // ดึงตัวเลขออกมาจากข้อความ (รองรับทั้งแบบมีเครื่องหมาย % หรือไม่มี)
+            const num = parseFloat(val.toString().replace('%', ''));
+            return isNaN(num) ? 0 : num;
+        }
+
+        function updateDashboard() {
+            currentPage = 1; // รีเซ็ตหน้าเมื่อเปลี่ยนตัวกรอง
+            renderUI();
+        }
+
+        function renderUI() {
+            // 1. KPIs
+            document.getElementById('kpiTotal').textContent = filteredData.length.toLocaleString();
+            
+            const highConfCount = filteredData.filter(d => parseConfidenceValue(d.Confidence) >= 80).length;
+            document.getElementById('kpiHigh').textContent = highConfCount.toLocaleString();
+
+            const nameCounts = {};
+            filteredData.forEach(d => { nameCounts[d.BugName] = (nameCounts[d.BugName] || 0) + 1; });
+            let topBug = '-';
+            let maxCount = 0;
+            for (let name in nameCounts) {
+                if (nameCounts[name] > maxCount) { maxCount = nameCounts[name]; topBug = name; }
+            }
+            document.getElementById('kpiTopBug').textContent = topBug;
+
+            // 2. Charts Data
+            const bugLabels = Object.keys(nameCounts);
+            const bugValues = Object.values(nameCounts);
+            
+            const confRanges = {
+                '80-100': filteredData.filter(d => { let v = parseConfidenceValue(d.Confidence); return v >= 80 && v <= 100; }).length,
+                '50-79': filteredData.filter(d => { let v = parseConfidenceValue(d.Confidence); return v >= 50 && v < 80; }).length,
+                '0-49': filteredData.filter(d => { let v = parseConfidenceValue(d.Confidence); return v < 50; }).length
+            };
+
+            renderCharts(bugLabels, bugValues, [confRanges['80-100'], confRanges['50-79'], confRanges['0-49']]);
+            renderTable();
+        }
+
+        function renderTable() {
+            const headerRow = document.getElementById('tableHeader');
+            const tbody = document.getElementById('tableBody');
+            document.getElementById('rowCount').textContent = `แสดงผลทั้งหมด ${filteredData.length} รายการ`;
+
+            headerRow.innerHTML = headers.map(h => `<th class="py-3 px-4">${h}</th>`).join('');
+            
+            if (filteredData.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="${headers.length}" class="py-6 text-center text-slate-500">ไม่พบข้อมูล</td></tr>`;
+                document.getElementById('pageInfo').textContent = `หน้าที่ 0 จาก 0`;
+                document.getElementById('prevBtn').disabled = true;
+                document.getElementById('nextBtn').disabled = true;
+                return;
+            }
+
+            // คำนวณระบบ Pagination
+            const totalPages = Math.ceil(filteredData.length / rowsPerPage);
+            if (currentPage > totalPages) currentPage = totalPages;
+            if (currentPage < 1) currentPage = 1;
+
+            const start = (currentPage - 1) * rowsPerPage;
+            const end = start + rowsPerPage;
+            const paginatedItems = filteredData.slice(start, end);
+
+            tbody.innerHTML = paginatedItems.map(row => {
+                return `<tr class="hover:bg-slate-800/50 transition">` + 
+                    headers.map(h => `<td class="py-3 px-4">${row[h] || '-'}</td>`).join('') + 
+                    `</tr>`;
+            }).join('');
+
+            document.getElementById('pageInfo').textContent = `หน้าที่ ${currentPage} จาก ${totalPages}`;
+            document.getElementById('prevBtn').disabled = (currentPage === 1);
+            document.getElementById('nextBtn').disabled = (currentPage === totalPages || totalPages === 0);
+        }
+
+        function nextPage() {
+            const totalPages = Math.ceil(filteredData.length / rowsPerPage);
+            if (currentPage < totalPages) {
+                currentPage++;
+                renderTable();
+            }
+        }
+
+        function prevPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                renderTable();
+            }
+        }
+
+        function renderCharts(bugLabels, bugValues, confValues) {
+            const ctx1 = document.getElementById('bugChart').getContext('2d');
+            if (bugChartInstance) bugChartInstance.destroy();
+            bugChartInstance = new Chart(ctx1, {
+                type: 'bar',
+                data: {
+                    labels: bugLabels,
+                    datasets: [{ label: 'จำนวน', data: bugValues, backgroundColor: 'rgba(139, 92, 246, 0.7)', borderColor: '#8b5cf6', borderWidth: 1, borderRadius: 8 }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#94a3b8' } },
+                        y: { beginAtZero: true, grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#94a3b8', precision: 0 } }
+                    }
+                }
+            });
+
+            const ctx2 = document.getElementById('confChart').getContext('2d');
+            if (confChartInstance) confChartInstance.destroy();
+            confChartInstance = new Chart(ctx2, {
+                type: 'doughnut',
+                data: {
+                    labels: ['80-100%', '50-79%', '< 50%'],
+                    datasets: [{ data: confValues, backgroundColor: ['#06b6d4', '#8b5cf6', '#ec4899'], borderWidth: 0 }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom', labels: { color: '#cbd5e1', font: { family: 'Prompt' } } } },
+                    cutout: '70%'
+                }
+            });
+        }
+
+        function filterData() {
+            const b = document.getElementById('bugNameFilter').value;
+            const c = document.getElementById('confidenceFilter').value;
+            
+            filteredData = rawData.filter(d => {
+                const matchBug = (b === 'all' || d.BugName === b);
+                
+                let matchConf = true;
+                if (c !== 'all') {
+                    const val = parseConfidenceValue(d.Confidence);
+                    if (c === '80-100') matchConf = (val >= 80 && val <= 100);
+                    else if (c === '50-79') matchConf = (val >= 50 && val < 80);
+                    else if (c === '0-49') matchConf = (val < 50);
+                }
+
+                return matchBug && matchConf;
+            });
+
+            updateDashboard();
+        }
+
+        function resetFilters() {
+            document.getElementById('bugNameFilter').value = 'all';
+            document.getElementById('confidenceFilter').value = 'all';
+            filteredData = [...rawData];
+            updateDashboard();
+        }
+
+        document.getElementById('bugNameFilter').addEventListener('change', filterData);
+        document.getElementById('confidenceFilter').addEventListener('change', filterData);
+
+        init();
+    </script>
+</body>
+</html>
