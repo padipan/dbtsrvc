@@ -1,37 +1,620 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="th" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ทดสอบหน้าเว็บแบบสไลด์</title>
-    <link rel="stylesheet" href="style.css">
+    <title>เทคโนโลยีธุรกิจดิจิทัล | วิทยาลัยอาชีวศึกษาสุรินทร์ (สอศ.)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800&family=Sarabun:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Prompt', 'Sarabun', 'sans-serif'],
+                    },
+                    colors: {
+                        cyber: {
+                            dark: '#070b14',
+                            card: 'rgba(15, 23, 42, 0.75)',
+                            accent: '#00f2fe',
+                            purple: '#7928ca',
+                            pink: '#ff0080',
+                            neon: '#3b82f6'
+                        }
+                    },
+                    animation: {
+                        'pulse-glow': 'pulseGlow 3s infinite ease-in-out',
+                        'float': 'float 6s infinite ease-in-out',
+                    },
+                    keyframes: {
+                        pulseGlow: {
+                            '0%, 100%': { opacity: '0.4', transform: 'scale(1)' },
+                            '50%': { opacity: '0.8', transform: 'scale(1.05)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-12px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #050811;
+            color: #f1f5f9;
+            overflow-x: hidden;
+        }
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-panel-hover:hover {
+            border-color: rgba(0, 242, 254, 0.4);
+            box-shadow: 0 0 25px rgba(0, 242, 254, 0.15);
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #00f2fe 0%, #4facfe 50%, #7928ca 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .gradient-btn {
+            background: linear-gradient(135deg, #00f2fe 0%, #7928ca 100%);
+            transition: all 0.3s ease;
+        }
+        .gradient-btn:hover {
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.5);
+            transform: translateY(-2px);
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #050811;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00f2fe;
+        }
+    </style>
 </head>
+<body class="font-sans antialiased selection:bg-cyan-500 selection:text-black">
 
-<body>
-    <div class="header">แผนกวิชาเทคโนโลยีธุรกิจิทัล</div>
-    <div class="slideshow">
-        <div class="slides" id="slides">
-            <div class="slide">
+    <canvas id="bg-canvas" class="fixed top-0 left-0 w-full h-full -z-10 opacity-40 pointer-events-none"></canvas>
 
-                <img src="img/img004.jpg" alt="Game 1">
-            </div>
-            <div class="slide">
+    <header class="fixed top-0 left-0 w-full z-50 transition-all duration-300 glass-panel border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <a href="#" class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-purple-600 flex items-center justify-center font-bold text-white text-xl shadow-lg shadow-cyan-500/20">
+                    DBT
+                </div>
+                <div>
+                    <span class="text-lg font-bold tracking-wider block leading-none gradient-text">DIGITAL BUSINESS TECH</span>
+                    <span class="text-xs text-slate-400">วิทยาลัยอาชีวศึกษาสุรินทร์</span>
+                </div>
+            </a>
 
-                <img src="img/img002.jpg" alt="Game 2">
-            </div>
-            <div class="slide">
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-300">
+                <a href="#about" class="hover:text-cyan-400 transition-colors">หน้าหลัก</a>
+                <a href="#programs" class="hover:text-cyan-400 transition-colors">หลักสูตร</a>
+                <a href="#news" class="hover:text-cyan-400 transition-colors">ข่าวสาร</a>
+                <a href="#teachers" class="hover:text-cyan-400 transition-colors">คณาจารย์</a>
+                <a href="#admission" class="gradient-btn px-5 py-2.5 rounded-full text-white font-semibold flex items-center gap-2">
+                    <i class="fa-solid fa-paper-plane"></i> สมัครเรียนออนไลน์
+                </a>
+            </nav>
 
-                <img src="img/img003.jpg" alt="Game 3">
+            <button id="mobile-menu-btn" class="md:hidden text-slate-300 hover:text-white focus:outline-none">
+                <i class="fa-solid fa-bars text-2xl"></i>
+            </button>
+        </div>
+
+        <div id="mobile-menu" class="hidden md:hidden glass-panel border-t border-white/10 px-4 pt-2 pb-6 space-y-3">
+            <a href="#about" class="block py-2 text-slate-300 hover:text-cyan-400">หน้าหลัก</a>
+            <a href="#programs" class="block py-2 text-slate-300 hover:text-cyan-400">หลักสูตร</a>
+            <a href="#news" class="block py-2 text-slate-300 hover:text-cyan-400">ข่าวสาร</a>
+            <a href="#teachers" class="block py-2 text-slate-300 hover:text-cyan-400">คณาจารย์</a>
+            <a href="#admission" class="block text-center gradient-btn py-3 rounded-xl text-white font-semibold">สมัครเรียนออนไลน์</a>
+        </div>
+    </header>
+
+    <section id="about" class="relative pt-36 pb-20 md:pt-48 md:pb-32 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <div class="lg:col-span-7 space-y-8 text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-panel border border-cyan-500/30 text-xs font-semibold text-cyan-400">
+                        <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+                        สังกัดสำนักงานคณะกรรมการการอาชีวศึกษา (สอศ.)
+                    </div>
+                    
+                    <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight leading-tight">
+                        ก้าวสู่อนาคตดิจิทัล <br>
+                        <span class="gradient-text">ก้าวสู่การเป็นมืออาชีพชั้นนำ</span>
+                    </h1>
+                    
+                    <p class="text-slate-400 text-lg leading-relaxed max-w-2xl mx-auto lg:mx-0">
+                        แผนกวิชาเทคโนโลยีธุรกิจดิจิทัล วิทยาลัยอาชีวศึกษาสุรินทร์ มุ่งสร้างผู้เชี่ยวชาญด้านปัญญาประดิษฐ์ (AI), พัฒนาเว็บแอปพลิเคชัน, สื่อดิจิทัลคอนเทนต์ และธุรกิจอีคอมเมิร์ซ ยุคใหม่เพื่อตอบสนองตลาดโลกาภิวัตน์
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                        <a href="#admission" class="gradient-btn px-8 py-4 rounded-xl font-bold text-white text-center text-lg flex items-center justify-center gap-3">
+                            <i class="fa-solid fa-graduation-cap text-xl"></i> สมัครเข้าศึกษาต่อปี 2569
+                        </a>
+                        <a href="#programs" class="glass-panel hover:bg-white/10 px-8 py-4 rounded-xl font-semibold text-center text-slate-200 border border-white/10 flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-book-open"></i> รายละเอียดหลักสูตร
+                        </a>
+                    </div>
+
+                    <div class="pt-8 border-t border-white/10 grid grid-cols-3 gap-4">
+                        <div>
+                            <div class="text-3xl font-bold text-cyan-400">100%</div>
+                            <div class="text-xs text-slate-400 mt-1">เน้นการปฏิบัติจริง</div>
+                        </div>
+                        <div>
+                            <div class="text-3xl font-bold text-purple-400">AI & Web</div>
+                            <div class="text-xs text-slate-400 mt-1">เทคโนโลยีล่าสุด</div>
+                        </div>
+                        <div>
+                            <div class="text-3xl font-bold text-pink-400">สอศ.</div>
+                            <div class="text-xs text-slate-400 mt-1">การันตีคุณภาพมาตรฐาน</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-5 relative">
+                    <div class="absolute -top-10 -left-10 w-72 h-72 bg-cyan-500/20 rounded-full blur-3xl animate-pulse-glow"></div>
+                    <div class="absolute -bottom-10 -right-10 w-72 h-72 bg-purple-500/20 rounded-full blur-3xl animate-pulse-glow"></div>
+                    
+                    <div class="glass-panel p-8 rounded-3xl relative z-10 border border-white/10 animate-float shadow-2xl">
+                        <div class="flex items-center justify-between mb-6">
+                            <div class="flex items-center space-x-2">
+                                <span class="w-3 h-3 rounded-full bg-red-500"></span>
+                                <span class="w-3 h-3 rounded-full bg-yellow-500"></span>
+                                <span class="w-3 h-3 rounded-full bg-green-500"></span>
+                            </div>
+                            <span class="text-xs text-slate-500 font-mono">digital_core_v2.6.sys</span>
+                        </div>
+                        
+                        <div class="space-y-4 font-mono text-sm">
+                            <div class="p-4 rounded-xl bg-black/40 border border-white/5 text-cyan-300">
+                                <span class="text-purple-400">const</span> <span class="text-yellow-400">department</span> = <span class="text-green-400">'Digital Business Technology'</span>;
+                            </div>
+                            <div class="p-4 rounded-xl bg-black/40 border border-white/5 text-slate-300">
+                                <span class="text-purple-400">let</span> skills = [<span class="text-cyan-400">'Web Dev'</span>, <span class="text-cyan-400">'AI Innovation'</span>, <span class="text-cyan-400">'Data Analytics'</span>, <span class="text-cyan-400">'E-Commerce'</span>];
+                            </div>
+                            <div class="p-4 rounded-xl bg-black/40 border border-white/5 text-pink-300">
+                                <span class="text-purple-400">function</span> <span class="text-blue-400">buildFuture</span>() { <span class="text-slate-400">return</span> <span class="text-yellow-300">'Success Professional'</span>; }
+                            </div>
+                        </div>
+
+                        <div class="mt-6 pt-6 border-t border-white/10 flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <i class="fa-solid fa-shield-halved text-cyan-400 text-2xl"></i>
+                                <span class="text-xs text-slate-300">หลักสูตรรับรองโดยสำนักงานคณะกรรมการการอาชีวศึกษา</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
-        <div class="navigation">
-            <button class="arrow" id="prev">&#10094; Prev</button>
-            <button class="arrow" id="next">Next &#10095;</button>
+    </section>
+
+    <section id="programs" class="py-24 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                <h2 class="text-xs font-bold tracking-widest text-cyan-400 uppercase">Academic Programs</h2>
+                <p class="text-3xl md:text-5xl font-extrabold text-white">หลักสูตรที่เปิดสอน</p>
+                <p class="text-slate-400">มุ่งเน้นสร้างทักษะระดับสูงทางด้านเทคโนโลยีและธุรกิจ เพื่อเตรียมพร้อมสู่ตลาดแรงงานยุคดิจิทัล</p>
+            </div>
+
+            <div id="programs-container" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="glass-panel p-8 rounded-3xl animate-pulse space-y-4">
+                    <div class="h-6 bg-slate-700/50 rounded w-1/4"></div>
+                    <div class="h-8 bg-slate-700/50 rounded w-3/4"></div>
+                    <div class="h-20 bg-slate-700/50 rounded"></div>
+                </div>
+                <div class="glass-panel p-8 rounded-3xl animate-pulse space-y-4">
+                    <div class="h-6 bg-slate-700/50 rounded w-1/4"></div>
+                    <div class="h-8 bg-slate-700/50 rounded w-3/4"></div>
+                    <div class="h-20 bg-slate-700/50 rounded"></div>
+                </div>
+            </div>
         </div>
-        <div class="indicator" id="indicator"></div>
-    </div>
+    </section>
+
+    <section id="news" class="py-24 relative bg-slate-950/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-4">
+                <div>
+                    <h2 class="text-xs font-bold tracking-widest text-purple-400 uppercase">Updates & Events</h2>
+                    <p class="text-3xl md:text-5xl font-extrabold text-white mt-2">ข่าวสารและกิจกรรม</p>
+                </div>
+                <p class="text-slate-400 max-w-md">อัปเดตความเคลื่อนไหว ผลงานนักเรียนนักศึกษา และกิจกรรมนวัตกรรมดิจิทัลของแผนกวิชา</p>
+            </div>
+
+            <div id="news-container" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                </div>
+        </div>
+    </section>
+
+    <section id="teachers" class="py-24 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                <h2 class="text-xs font-bold tracking-widest text-cyan-400 uppercase">Our Expertise</h2>
+                <p class="text-3xl md:text-5xl font-extrabold text-white">คณาจารย์ผู้เชี่ยวชาญ</p>
+                <p class="text-slate-400">บุคลากรทรงคุณวุฒิที่พร้อมถ่ายทอดองค์ความรู้และนวัตกรรมใหม่ๆ ให้กับผู้เรียน</p>
+            </div>
+
+            <div id="teachers-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                </div>
+        </div>
+    </section>
+
+    <section id="admission" class="py-24 relative">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="glass-panel p-8 sm:p-12 rounded-3xl border border-cyan-500/20 shadow-2xl relative overflow-hidden">
+                <div class="absolute -top-24 -right-24 w-60 h-60 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+                
+                <div class="text-center space-y-3 mb-10">
+                    <span class="px-4 py-1.5 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 text-xs font-semibold">
+                        Online Application Form
+                    </span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-white">ระบบสมัครเรียนออนไลน์</h2>
+                    <p class="text-slate-400 text-sm">แผนกวิชาเทคโนโลยีธุรกิจดิจิทัล วิทยาลัยอาชีวศึกษาสุรินทร์</p>
+                </div>
+
+                <form id="admissionForm" class="space-y-6">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">ชื่อ-นามสกุล *</label>
+                            <input type="text" id="full_name" required placeholder="นาย/นางสาว สมชาย ใจดี" class="w-full bg-slate-900/80 border border-slate-700 focus:border-cyan-400 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-cyan-400 transition">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">เลขบัตรประจำตัวประชาชน *</label>
+                            <input type="text" id="citizen_id" maxlength="13" required placeholder="13 หลัก" class="w-full bg-slate-900/80 border border-slate-700 focus:border-cyan-400 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-cyan-400 transition">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">เบอร์โทรศัพท์ติดต่อ *</label>
+                            <input type="tel" id="phone" required placeholder="08XXXXXXXX" class="w-full bg-slate-900/80 border border-slate-700 focus:border-cyan-400 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-cyan-400 transition">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">อีเมล</label>
+                            <input type="email" id="email" placeholder="example@gmail.com" class="w-full bg-slate-900/80 border border-slate-700 focus:border-cyan-400 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-cyan-400 transition">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">ระดับชั้นที่ต้องการสมัคร *</label>
+                            <select id="level" required class="w-full bg-slate-900/80 border border-slate-700 focus:border-cyan-400 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-1 focus:ring-cyan-400 transition">
+                                <option value="ปวช.">ปวช. (ประกาศนียบัตรวิชาชีพ)</option>
+                                <option value="ปวส.">ปวส. (ประกาศนียบัตรวิชาชีพชั้นสูง)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">โรงเรียน/สถานศึกษาเดิม *</label>
+                            <input type="text" id="prev_school" required placeholder="ชื่อโรงเรียนเดิม" class="w-full bg-slate-900/80 border border-slate-700 focus:border-cyan-400 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-cyan-400 transition">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">เกรดเฉลี่ยสะสม (GPA)</label>
+                            <input type="number" step="0.01" min="0" max="4.00" id="gpa" placeholder="3.50" class="w-full bg-slate-900/80 border border-slate-700 focus:border-cyan-400 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-cyan-400 transition">
+                        </div>
+                    </div>
+
+                    <div class="pt-4">
+                        <button type="submit" id="submitBtn" class="w-full gradient-btn py-4 rounded-xl text-white font-bold text-lg flex items-center justify-center gap-3">
+                            <i class="fa-solid fa-paper-plane"></i> ยืนยันการส่งใบสมัคร
+                        </button>
+                    </div>
+                </form>
+
+                <div id="statusAlert" class="hidden mt-6 p-4 rounded-xl text-center text-sm font-semibold"></div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="glass-panel border-t border-white/10 pt-16 pb-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
+                <div class="md:col-span-2 space-y-4">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-cyan-500 to-purple-600 flex items-center justify-center font-bold text-white text-sm">
+                            DBT
+                        </div>
+                        <span class="text-lg font-bold gradient-text">แผนกวิชาเทคโนโลยีธุรกิจดิจิทัล</span>
+                    </div>
+                    <p class="text-slate-400 text-sm leading-relaxed max-w-md">
+                        วิทยาลัยอาชีวศึกษาสุรินทร์ เลขที่ 365 ถนนหลักเมือง ตำบลในเมือง อำเภอเมืองสุรินทร์ จังหวัดสุรินทร์ 32000 <br>
+                        สังกัดสำนักงานคณะกรรมการการอาชีวศึกษา (สอศ.) กระทรวงศึกษาธิการ
+                    </p>
+                </div>
+
+                <div>
+                    <h3 class="text-white font-semibold text-sm uppercase tracking-wider mb-4">ลิงก์ที่เป็นประโยชน์</h3>
+                    <ul class="space-y-2 text-sm text-slate-400">
+                        <li><a href="https://www.vec.go.th" target="_blank" class="hover:text-cyan-400 transition">สำนักงานคณะกรรมการการอาชีวศึกษา</a></li>
+                        <li><a href="http://www.svc.ac.th" target="_blank" class="hover:text-cyan-400 transition">วิทยาลัยอาชีวศึกษาสุรินทร์</a></li>
+                        <li><a href="#programs" class="hover:text-cyan-400 transition">หลักสูตรวิชาการ</a></li>
+                        <li><a href="#admission" class="hover:text-cyan-400 transition">สมัครเรียนออนไลน์</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-white font-semibold text-sm uppercase tracking-wider mb-4">ช่องทางติดต่อ</h3>
+                    <ul class="space-y-2 text-sm text-slate-400">
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-phone text-cyan-400"></i> 044-511-190</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-envelope text-cyan-400"></i> dbt@svc.ac.th</li>
+                        <li class="flex items-center gap-2"><i class="fa-brands fa-facebook text-cyan-400"></i> เทคโนโลยีธุรกิจดิจิทัล อาชีวสุรินทร์</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="pt-8 border-t border-white/5 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-500 gap-4">
+                <p>&copy; 2026 Digital Business Technology Department, Surin Vocational College. All rights reserved.</p>
+                <p class="font-mono">Powered by Google Apps Script & Modern Web Stack</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // -------------------------------------------------------------
+        // ⚠️ กรอก URL ที่ได้จากการ Deploy Google Apps Script Web App ที่นี่
+        // -------------------------------------------------------------
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzXKU23m-SWSj34rIencDKjdgPptk5D2GbaENscZ5AMdJ5QYTes52-Od1HjyrHHwcqS/exec';
+
+        // Background Canvas Particle Animation Engine
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.4;
+                this.speedY = (Math.random() - 0.5) * 0.4;
+                this.color = Math.random() > 0.5 ? '#00f2fe' : '#7928ca';
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+            }
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        for (let i = 0; i < 65; i++) {
+            particles.push(new Particle());
+        }
+
+        function animateCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateCanvas);
+        }
+        animateCanvas();
+
+        // Mobile Menu Toggle
+        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+
+        // Dynamic Data Fetcher from Google Apps Script
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchPrograms();
+            fetchNews();
+            fetchTeachers();
+        });
+
+        // Default Fallback Datasets (ในกรณีที่ยังไม่ได้วาง SCRIPT_URL หรือเริ่มระบบใหม่)
+        const defaultPrograms = [
+            { level: 'ปวช.', name: 'เทคโนโลยีธุรกิจดิจิทัล', description: 'เน้นปูพื้นฐานการพัฒนาเว็บไซต์ คอมพิวเตอร์กราฟิก ภาษาโปรแกรมมิ่ง ระบบฐานข้อมูล และธุรกิจดิจิทัลเบื้องต้น', duration: '3 ปี' },
+            { level: 'ปวส.', name: 'เทคโนโลยีธุรกิจดิจิทัล', description: 'มุ่งเน้นความเชี่ยวชาญขั้นสูง ด้านการวิเคราะห์ข้อมูล (Data Analytics), AI For Business, Full-stack Web Development และดิจิทัลการตลาด', duration: '2 ปี' }
+        ];
+
+        const defaultTeachers = [
+            { name: 'ดร. นวัตกรรม เทคโนโลยี', position: 'หัวหน้าแผนกวิชา', image_url: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=500&q=80' },
+            { name: 'อาจารย์ ดิจิทัล สมัยใหม่', position: 'ครูผู้สอนสาขา Web & AI', image_url: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=500&q=80' },
+            { name: 'อาจารย์ สื่อดิจิทัล สร้างสรรค์', position: 'ครูผู้สอนสาขา Graphic & Media', image_url: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=500&q=80' }
+        ];
+
+        const defaultNews = [
+            { title: 'เปิดรับสมัครนักเรียนนักศึกษาใหม่ ปีการศึกษา 2569', excerpt: 'แผนกวิชาเทคโนโลยีธุรกิจดิจิทัล เปิดรับสมัครโควตาและสอบคัดเลือกทั่วประเทศ...', published_at: '2026-09-01' },
+            { title: 'คว้ารางวัลชนะเลิศ นวัตกรรมอาชีวศึกษา ระดับชาติ', excerpt: 'นักศึกษาส่งผลงานสิ่งประดิษฐ์ระบบ AI ตรวจจับพืชผลการเกษตร คว้ารางวัลเหรียญทอง...', published_at: '2026-08-20' },
+            { title: 'โครงการอบรมเชิงปฏิบัติการ Cloud Computing & Data Analytics', excerpt: 'ร่วมมือกับบริษัทเทคโนโลยีระดับโลกจัดอบรมเตรียมความพร้อมให้นักศึกษา...', published_at: '2026-08-15' }
+        ];
+
+        async function fetchPrograms() {
+            const container = document.getElementById('programs-container');
+            try {
+                if (SCRIPT_URL.includes('YOUR_SCRIPT_ID_HERE')) throw new Error('Using fallback data');
+                const res = await fetch(`${SCRIPT_URL}?sheet=programs`);
+                const json = await res.json();
+                if (json.ok && json.data.length > 0) {
+                    renderPrograms(json.data);
+                    return;
+                }
+            } catch (err) {
+                console.log('Programs API notice:', err.message);
+            }
+            renderPrograms(defaultPrograms);
+        }
+
+        function renderPrograms(data) {
+            const container = document.getElementById('programs-container');
+            container.innerHTML = data.map(p => `
+                <div class="glass-panel glass-panel-hover p-8 rounded-3xl transition duration-500 relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-cyan-500/10 rounded-bl-full group-hover:scale-110 transition duration-500"></div>
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="px-4 py-1.5 rounded-full bg-cyan-500/10 text-cyan-400 font-bold text-xs border border-cyan-500/30">
+                            ระดับ ${p.level}
+                        </span>
+                        <span class="text-xs text-slate-400 font-mono"><i class="fa-regular fa-clock"></i> หลักสูตร ${p.duration}</span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-3 group-hover:text-cyan-400 transition">${p.name}</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-6">${p.description}</p>
+                    <a href="#admission" class="inline-flex items-center gap-2 text-sm font-semibold text-cyan-400 hover:text-cyan-300 transition">
+                        สมัครเข้าเรียนหลักสูตรนี้ <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </a>
+                </div>
+            `).join('');
+        }
+
+        async function fetchTeachers() {
+            const container = document.getElementById('teachers-container');
+            try {
+                if (SCRIPT_URL.includes('YOUR_SCRIPT_ID_HERE')) throw new Error('Using fallback data');
+                const res = await fetch(`${SCRIPT_URL}?sheet=teachers`);
+                const json = await res.json();
+                if (json.ok && json.data.length > 0) {
+                    renderTeachers(json.data);
+                    return;
+                }
+            } catch (err) {
+                console.log('Teachers API notice:', err.message);
+            }
+            renderTeachers(defaultTeachers);
+        }
+
+        function renderTeachers(data) {
+            const container = document.getElementById('teachers-container');
+            container.innerHTML = data.map(t => `
+                <div class="glass-panel glass-panel-hover p-6 rounded-3xl text-center group transition duration-300">
+                    <div class="w-24 h-24 mx-auto mb-4 rounded-2xl overflow-hidden border-2 border-cyan-500/30 group-hover:border-cyan-400 shadow-lg">
+                        <img src="${t.image_url || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=500&q=80'}" alt="${t.name}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    </div>
+                    <h4 class="text-lg font-bold text-white mb-1 group-hover:text-cyan-400 transition">${t.name}</h4>
+                    <p class="text-xs text-slate-400 font-medium">${t.position}</p>
+                </div>
+            `).join('');
+        }
+
+        async function fetchNews() {
+            const container = document.getElementById('news-container');
+            try {
+                if (SCRIPT_URL.includes('YOUR_SCRIPT_ID_HERE')) throw new Error('Using fallback data');
+                const res = await fetch(`${SCRIPT_URL}?sheet=news`);
+                const json = await res.json();
+                if (json.ok && json.data.length > 0) {
+                    renderNews(json.data);
+                    return;
+                }
+            } catch (err) {
+                console.log('News API notice:', err.message);
+            }
+            renderNews(defaultNews);
+        }
+
+        function renderNews(data) {
+            const container = document.getElementById('news-container');
+            container.innerHTML = data.map(n => `
+                <div class="glass-panel glass-panel-hover rounded-3xl overflow-hidden group transition duration-300 flex flex-col">
+                    <div class="h-48 bg-slate-800 overflow-hidden relative">
+                        <img src="${n.cover_url || 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80'}" alt="${n.title}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                        <div class="absolute top-3 right-3 px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-xs text-slate-300 border border-white/10">
+                            ${n.published_at ? new Date(n.published_at).toLocaleDateString('th-TH') : 'ข่าวประชาสัมพันธ์'}
+                        </div>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+                        <h4 class="text-lg font-bold text-white leading-snug group-hover:text-cyan-400 transition line-clamp-2">${n.title}</h4>
+                        <p class="text-slate-400 text-sm line-clamp-3 leading-relaxed">${n.excerpt || ''}</p>
+                        <div class="pt-2">
+                            <span class="text-xs font-semibold text-cyan-400 group-hover:translate-x-1 inline-block transition">อ่านรายละเอียด <i class="fa-solid fa-chevron-right text-[10px]"></i></span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Admission Form Post Handler
+        document.getElementById('admissionForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const submitBtn = document.getElementById('submitBtn');
+            const alertBox = document.getElementById('statusAlert');
+
+            const payload = {
+                sheet: 'applicants',
+                action: 'create',
+                data: {
+                    full_name: document.getElementById('full_name').value.trim(),
+                    citizen_id: document.getElementById('citizen_id').value.trim(),
+                    phone: document.getElementById('phone').value.trim(),
+                    email: document.getElementById('email').value.trim(),
+                    level: document.getElementById('level').value,
+                    prev_school: document.getElementById('prev_school').value.trim(),
+                    gpa: document.getElementById('gpa').value ? parseFloat(document.getElementById('gpa').value) : ''
+                }
+            };
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> กำลังส่งข้อมูลใบสมัคร...`;
+            alertBox.className = 'hidden';
+
+            try {
+                if (SCRIPT_URL.includes('YOUR_SCRIPT_ID_HERE')) {
+                    throw new Error('กรุณาใส่ SCRIPT_URL ที่ได้จาก Google Apps Script Web App ในไฟล์ index.html ก่อน');
+                }
+
+                const res = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify(payload)
+                });
+                
+                const result = await res.json();
+
+                if (result.ok) {
+                    alertBox.className = 'mt-6 p-4 rounded-xl text-center text-sm font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30';
+                    alertBox.innerHTML = `<i class="fa-solid fa-circle-check text-lg"></i> ส่งใบสมัครเรียบร้อยแล้ว! เจ้าหน้าที่จะทำการติดต่อกลับโดยเร็วที่สุด`;
+                    document.getElementById('admissionForm').reset();
+                } else {
+                    throw new Error(result.error || 'เกิดข้อผิดพลาดในการบันทึกข้อมูล');
+                }
+            } catch (err) {
+                alertBox.className = 'mt-6 p-4 rounded-xl text-center text-sm font-semibold bg-rose-500/20 text-rose-300 border border-rose-500/30';
+                alertBox.innerHTML = `<i class="fa-solid fa-triangle-exclamation text-lg"></i> ${err.message}`;
+            } finally {
+                alertBox.classList.remove('hidden');
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = `<i class="fa-solid fa-paper-plane"></i> ยืนยันการส่งใบสมัคร`;
+            }
+        });
+    </script>
 </body>
-<script src="sc.js"></script>
-
 </html>
